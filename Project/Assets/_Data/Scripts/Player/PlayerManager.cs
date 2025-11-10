@@ -13,10 +13,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Transform player_3_transform;
     [SerializeField] Transform player_4_transform;
 
-    [Space(20)]
+    [Space(10)]
     [Header("Forklift Spawning")]
     [SerializeField] GameObject forklift_prefab;
     [SerializeField] Vector2 spawn_offest;
+
+    [Space(10)]
+    [Header("Lobby UI")]
+    [SerializeField] Canvas lobby_ui;
 
     List<Transform> player_positions = new List<Transform>();
 
@@ -51,5 +55,7 @@ public class PlayerManager : MonoBehaviour
         temp.transform.position = input.gameObject.transform.position + new Vector3(spawn_offest.x, 0, spawn_offest.y);
 
         input.GetComponent<CharacterController>().enabled = true;
+
+        lobby_ui.GetComponent<LobbyManager>().playerJoined(input.playerIndex);
     }
 }
