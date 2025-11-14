@@ -59,9 +59,10 @@ public class ForkliftController : MonoBehaviour, IDriveable
 
 	private PlayerController driver;
 
-    [SerializeField] private Transform camera_root;
-	
-	private Rigidbody rb;
+    [SerializeField] private Transform cameraForwardPos;
+    [SerializeField] private Transform cameraReversePos;
+
+    private Rigidbody rb;
 
     private AudioEnabler audio_enabler;
 
@@ -132,8 +133,12 @@ public class ForkliftController : MonoBehaviour, IDriveable
 
     public Transform getCameraRoot()
     {
-        return camera_root;
+        return cameraForwardPos;
     }
+
+    // TODO: change the thing above to a property like what we got going on below:
+
+    public Transform CameraReversePosition => cameraReversePos;
 
     public void Lift()
     {

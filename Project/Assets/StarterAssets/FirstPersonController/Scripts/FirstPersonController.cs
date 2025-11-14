@@ -85,8 +85,10 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		private AudioEnabler _audioEnabler;
+        private PlayerController playerController;
 
-		private bool IsCurrentDeviceMouse
+
+        private bool IsCurrentDeviceMouse
 		{
 			get
 			{
@@ -107,6 +109,7 @@ namespace StarterAssets
 			}
 
             transform.localRotation = new Quaternion(0, 0, 0, 0);
+			playerController = GetComponent<PlayerController>();
         }
 
         private void Start()
@@ -157,10 +160,13 @@ namespace StarterAssets
                 _rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
                 _cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
 
-                if (GetComponent<PlayerController>().driving)
+                if (playerController.driving)
                 {
-                    GetComponent<PlayerController>().cameraDrive(_rotationVelocity);
+					// GetComponent<PlayerController>().cameraDrive(_rotationVelocity);
+                    bool isLookingBack = (_input.look.y <= -_threshold) ? false : true;
+                    playerController.SetCameraPosition(isLookingBack);
 
+                    /*
                     if (use_camera_pitch)
                     {
                         // clamp our pitch rotation
@@ -169,8 +175,9 @@ namespace StarterAssets
                         // Update Cinemachine camera target pitch
                         CinemachineCameraTarget.GetComponentInChildren<Camera>().transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
                     }
+					*/
                 }
-				else
+                else
 				{
                     // rotate the player left and right
                     transform.Rotate(Vector3.up * _rotationVelocity);
@@ -182,6 +189,11 @@ namespace StarterAssets
 					CinemachineCameraTarget.GetComponentInChildren<Camera>().transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
                 }
             }
+			else
+			{
+				// Reset camera position if driving and no input is registered
+				if (playerController.driving) playerController.SetCameraPosition(false);
+			}
 		}
 
 		private void Move()

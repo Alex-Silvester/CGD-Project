@@ -1,6 +1,7 @@
 using StarterAssets;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField] GameObject camera;
 	[SerializeField] Transform player_camera_root;
+	[SerializeField] float cameraYOffset = 1.622f;
 
 	[SerializeField] InputActionReference lifting_action;
 	[SerializeField] InputActionReference dropping_action;
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			GetComponent<CharacterController>().enabled = false;
-
+			Debug.Log("hi");
 			current_forklift.interact();
 			model.SetActive(true);
 			driving = false;
@@ -128,6 +130,7 @@ public class PlayerController : MonoBehaviour
 			camera.transform.position = player_camera_root.position;
 			camera.transform.rotation = player_camera_root.rotation;
 			camera.transform.parent = gameObject.transform;
+			camera.transform.GetChild(0).transform.localPosition = new Vector3(0f, cameraYOffset, 0f);
 
             GetComponent<CharacterController>().enabled = true;
 
@@ -177,7 +180,8 @@ public class PlayerController : MonoBehaviour
 	public void cameraDrive(float rotation_velocity)
 	{
 		camera.transform.position = new Vector3(camera.transform.position.x, enter_vehicle_start_height, camera.transform.position.z);
-		camera.transform.RotateAround(current_forklift.transform.position, Vector3.up, rotation_velocity);
+		Debug.Log(camera.transform.position);
+		// camera.transform.RotateAround(current_forklift.transform.position, Vector3.up, rotation_velocity);
 		camera.transform.LookAt(current_forklift.getLookAtTransform());
     }
 
@@ -197,12 +201,13 @@ public class PlayerController : MonoBehaviour
 				return false;
 			}
 
+			// Camera setup
 			current_forklift = (ForkliftController)driveablesInRange[0];
-
-			Transform forklift_camera_root = current_forklift.getCameraRoot();
-			camera.transform.SetPositionAndRotation(forklift_camera_root.transform.position, forklift_camera_root.transform.rotation);
-			camera.transform.parent = current_forklift.transform;
-			
+            camera.transform.parent = current_forklift.transform;
+			SetCameraPosition(false);
+			//Transform forklift_camera_root = current_forklift.getCameraRoot();
+            //camera.transform.SetPositionAndRotation(forklift_camera_root.transform.position, forklift_camera_root.transform.rotation);
+            //camera.transform.LookAt(current_forklift.getLookAtTransform());
 			return true;
 		}
 		else
@@ -242,6 +247,30 @@ public class PlayerController : MonoBehaviour
 			Debug.LogWarning("Tried to remove driveable that isn't in driveablesInRange.");
 		}
 	}
+
+	// Sets the position of the camera to either forward of reverse
+	public void SetCameraPosition(bool toReverse)
+	{
+        Transform atForward = current_forklift.getCameraRoot();
+		Transform atReverse = current_forklift.CameraReversePosition;
+
+		/// TODO:
+		/// - Needs to lerp or tween between the two positions
+		/// - It may be desirable to instead set these positions based on to opposite locations of a circle
+		/// - That way the translation will be a rotation around this circle (Transform.RotateAround)
+		/// - How to do animation... idk :P
+		if (toReverse)
+		{
+            camera.transform.SetPositionAndRotation(atReverse.transform.position, atReverse.transform.rotation);
+        }
+		else
+		{
+            camera.transform.SetPositionAndRotation(atForward.transform.position, atForward.transform.rotation);
+		}
+ 
+		camera.transform.GetChild(0).transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        camera.transform.LookAt(current_forklift.getLookAtTransform());
+    }
 	
 	public Gamepad GetPlayerGamepad()
 	{

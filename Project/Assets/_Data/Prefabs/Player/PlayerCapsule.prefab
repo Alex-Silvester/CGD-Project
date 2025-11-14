@@ -208,7 +208,7 @@ MonoBehaviour:
   BottomClamp: -90
   DrivingTopClamp: 45
   DrivingBottomClamp: 20
-  use_camera_pitch: 1
+  use_camera_pitch: 0
 --- !u!114 &7863955024410015519
 MonoBehaviour:
   m_ObjectHideFlags: 0
