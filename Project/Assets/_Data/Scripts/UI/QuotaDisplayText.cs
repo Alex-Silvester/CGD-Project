@@ -15,7 +15,7 @@ public class QuotaDisplayText : MonoBehaviour
     CrateExtensions.ScheduleQuota requirement;
     float trackedScore;
 
-    string ReqsText => $"Crate: {requirement.requiredColor}\r\nQuota: {trackedScore}/{requirement.requiredScore}";
+    string ReqsText => $"Crate: {requirement.requiredTag}\r\nQuota: {trackedScore}/{requirement.requiredScore}";
     string GetQuotaTimeString(float time) => $"Time: {time:F1}s";
 
     private void Awake()
