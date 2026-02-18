@@ -33,7 +33,6 @@ public class CollectorScheduler : MonoBehaviour
     public bool Running => isRunning;
     public float RemainingQuotaTime => Mathf.Max(CurrentRequirement.timeLimit - timer.ElapsedTime, 0f);
 
-
     private void OnValidate()
     {
         if (!TryGetComponent(out timer))
@@ -96,6 +95,7 @@ public class CollectorScheduler : MonoBehaviour
             Schedule.Enqueue(req);
         }
         BonusQuotaMultipler = scheduleObject.QuotaBonusMultiplier;
+        scheduleObject.actingScheduler = this;
     }
 
     // Proceed through the schedule and handle what happens if the schedule is empty
@@ -115,6 +115,7 @@ public class CollectorScheduler : MonoBehaviour
             // Completed the schedule
             isRunning = false;
             SchedulerEnded.Invoke();
+            scheduleObject.actingScheduler = null;
         }
     }
 

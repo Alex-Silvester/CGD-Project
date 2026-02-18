@@ -14,7 +14,12 @@ public class CollectionScheduleObject : ScriptableObject
     float quotaBonusMultiplier = 1f;
 
     public ScheduleQuota[] CollectionSchedule => collectionSchedule;
+
+    [Tooltip("Score multiplier if the quota is met.")]
     public float QuotaBonusMultiplier => quotaBonusMultiplier;
+
+    [HideInInspector]
+    public CollectorScheduler actingScheduler;
 
     // This should use some special attribute so it's not editable in the inspector
     [SerializeField]

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // You can add 'using static CrateExtensions' to use these things in any other class
@@ -10,23 +12,34 @@ public static class CrateExtensions
 {
     // Struct defining the requirements for spawning crates
     [Serializable]
-    public struct SpawnRequirements
+    public class SpawnRequirements
     {
         [Tooltip("This must be the game object whose child transforms are used as spawn points.")]
         public Transform parentTransform;
         public CrateTag tag;
         public int spawnCount;
         public int crateScore;
+
+        /// <summary>
+        /// Map of spawn points and the crate they are parented to
+        /// </summary>
+        public Dictionary<Transform, ICollectable> instances;
+
+        /// <summary>
+        /// Number of crates this requirement has spawned (i.e. instances which aren't null)
+        /// </summary>
+        public int Spawned => instances.Values.Count(item => (UnityEngine.Object)item != null);
+        // Ugly lil cast since apparently the C# interpretation of the object and the Unity interpretation
+        // of the object are two seperate things. 
+        // Also this whole system might have a memory leak LOL
     }
 
-    public enum ColorTag { Red, Blue, Green, Null };
 
     // A CrateRequirement with a time limit
     [Serializable]
     public struct ScheduleQuota
     {
-        public ColorTag requiredColor;
-        //public CrateTag requiredTag;
+        public CrateTag requiredTag;
         public float requiredScore;
         [Min(0f)]
         public float timeLimit;
@@ -43,7 +56,7 @@ public static class CrateExtensions
 
     // Types of tags a crate can have. Add more to the enum if you want.
     // This can be referenced by calling CrateObject.CrateTag. 
-    public enum CrateTag { Red1, Green1, Blue1, Red2, Green2, Blue2 }
+    public enum CrateTag { Red, Green, Blue}
 
     // Gets a random crate tag
     public static CrateTag GetRandomCrateTag()
@@ -53,32 +66,14 @@ public static class CrateExtensions
     }
 
     // Returns a colour for a given colour-named tag
-    // FOR THOSE WHO DON'T KNOW you can call this from an instance of a CrateTag (makes calling this function less painfu
     public static Color GetColourFromTag(this CrateTag tag)
     {
         return tag switch
         {
-            CrateTag.Red1 => Color.red,
-            CrateTag.Green1 => Color.green,
-            CrateTag.Blue1 => Color.blue,
-            CrateTag.Red2 => Color.red,
-            CrateTag.Green2 => Color.green,
-            CrateTag.Blue2 => Color.blue,
+            CrateTag.Red => Color.red,
+            CrateTag.Green => Color.green,
+            CrateTag.Blue => Color.blue,
             _ => Color.white,
-        };
-    }
-
-    public static ColorTag getColorTag(this CrateTag tag)
-    {
-        return tag switch
-        {
-            CrateTag.Red1 => ColorTag.Red,
-            CrateTag.Green1 => ColorTag.Green,
-            CrateTag.Blue1 => ColorTag.Blue,
-            CrateTag.Red2 => ColorTag.Red,
-            CrateTag.Green2 => ColorTag.Green,
-            CrateTag.Blue2 => ColorTag.Blue,
-            _ => ColorTag.Null
         };
     }
 

@@ -29,6 +29,7 @@ public class TimeManager : MonoBehaviour
 	
     // Singleton
     public static TimeManager instance { get; private set; }
+	public CollectionScheduleObject CurrentScheduleObject => currentSchedule;
 	
 	/// <summary>
 	/// Setup a Singeton so there is only one TimeManager that can be acccessed in any other script
@@ -41,8 +42,9 @@ public class TimeManager : MonoBehaviour
 	
 	private void Start()
 	{
-		// Set time to total schedule time
-		CurrentTimeRemaining = currentSchedule.TotalTime - 0.01f;
+        // Set time to total schedule time
+        // (adding +0.01 so the timer events here are PROBABLY gonna fire after the collector's timer events fire; this definitely doesn't work if the fps is low but oh well Lole)
+        CurrentTimeRemaining = currentSchedule.TotalTime + 0.01f;
 		
 		// Subscribe to events
 		GameOverState.onEntered += StopTimer;

@@ -41934,6 +41934,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4322882342134811817, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
+      propertyPath: duration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322882342134811817, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -42995,7 +42999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4649749589772436556, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
       propertyPath: spawnRequirements.Array.data[1].tag
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4649749589772436556, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
       propertyPath: spawnRequirements.Array.data[2].tag
@@ -43023,7 +43027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4649749589772436556, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
       propertyPath: spawnRequirements.Array.data[1].crateScore
-      value: 50
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: 4649749589772436556, guid: afaec8739684c6744bf4ce5e2dd4b54b, type: 3}
       propertyPath: spawnRequirements.Array.data[1].spawnCount

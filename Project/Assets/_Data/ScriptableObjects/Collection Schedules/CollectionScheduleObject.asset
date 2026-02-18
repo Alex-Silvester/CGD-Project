@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: CollectionScheduleObject
   m_EditorClassIdentifier: 
   collectionSchedule:
-  - requiredColor: 0
+  - requiredTag: 0
     requiredScore: 200
     timeLimit: 100
-  - requiredColor: 2
+  - requiredTag: 1
     requiredScore: 200
     timeLimit: 100
-  - requiredColor: 1
+  - requiredTag: 2
     requiredScore: 200
     timeLimit: 100
   quotaBonusMultiplier: 1
+  actingScheduler: {fileID: 0}
   totalTime: 300
