@@ -19,6 +19,7 @@ public static class CrateExtensions
         public CrateTag tag;
         public int spawnCount;
         public int crateScore;
+        public DamageBehaviour damageBehaviour;
 
         /// <summary>
         /// Map of spawn points and the crate they are parented to
@@ -34,8 +35,25 @@ public static class CrateExtensions
         // Also this whole system might have a memory leak LOL
     }
 
+    // Damage behaviour information for calculating crate damage
+    [Serializable]
+    public struct DamageBehaviour
+    {
+        [Tooltip("Collision velocity threshold for the crate to take damage. Higher values means the crate's velocity must be higher when colliding for damage.")]
+        public float collisionVelocityForCrateDamage;
 
-    // A CrateRequirement with a time limit
+        [Tooltip("Damage multiplier, applied to the collision velocity above the collisionVelocityForCrateDamage threshold.")]
+        public float damageCoefficient;
+
+        [Tooltip("Maximum damage the crate can take as a numerical value."), Min(0f)]
+        public float maximumScoreLossValue;
+
+        [Tooltip("Maximum damage the crate can take as a percentage of the crate's maximum score."), Range(0f, 1f)]
+        public float maximumScoreLossPercentage;
+
+    }
+
+    // A quota that the players must complete
     [Serializable]
     public struct ScheduleQuota
     {

@@ -8,11 +8,13 @@ using TMPro;
 
 public class LobbyMenuManager : MonoBehaviour
 {
-	// Incase we ever want to adjust the maximum player count in the future
-	private static readonly int maxPlayerCount = 4;
+	[Header("Settings")]
 	// Game can't be started unless at least this many players have joined
-	private static readonly int minPlayerCount = 1;
+	[SerializeField][Range(1,4)] private int minPlayerCount = 1;
+	// Incase we ever want to adjust the maximum player count in the future
+	[SerializeField][Range(1,4)] private int maxPlayerCount = 4;
 	
+	[Header("Cache")]
 	[Tooltip("References to the Game Object in the scene each gamepad image is on. Index 0 (the first one) will be player 1 and so on.")]
 	[SerializeField] private GameObject[] playerControllerImages; // Offset by 1 (0 = player 1)
 	[Tooltip("Reference to the Button in the scene that will start the game")]
@@ -20,6 +22,7 @@ public class LobbyMenuManager : MonoBehaviour
 	[Tooltip("Reference to the Game Object with the instructions text in the scene")]
 	[SerializeField] private GameObject instructionsText;
 	
+	[Header("Events")]
 	[SerializeField] private UnityEvent onPlayerJoined = new UnityEvent();
 	
 	// The Gamepads that press the join button are added to this list in order.
@@ -40,16 +43,6 @@ public class LobbyMenuManager : MonoBehaviour
 		if (currentPlayers.Count < maxPlayerCount)
 		{
 			PlayerJoinedCheck();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			print(currentPlayers.Count);
-			
-			foreach (var item in currentPlayers)
-			{
-				print(item);
-			}
 		}
 	}
 	

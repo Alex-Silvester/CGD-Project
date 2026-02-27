@@ -42,6 +42,12 @@ public class DrivingController : MonoBehaviour
     [SerializeField] float manualAnimationSpeed = 1f;
     [SerializeField] bool drifting = false;
     [SerializeField] float driftMultiplier = 2f;
+    [SerializeField] GameObject trailPrefab;
+    [SerializeField] GameObject leftTrailStart;
+    [SerializeField] GameObject rightTrailStart;
+    GameObject currentTrailLeft;
+    GameObject currentTrailRight;
+    [SerializeField]GameObject driftTrailsContainer;
 
     [Header("Boost Variables")]
     [SerializeField] float boostMultiplier = 2f;
@@ -57,14 +63,15 @@ public class DrivingController : MonoBehaviour
     [SerializeField] GameObject boostParticlesBL;
     [SerializeField] GameObject boostParticlesBR;
     [SerializeField] float boostTierTimeIncrement = 0.5f;
+    [SerializeField] GameObject speedLinesImage;
 
     float sign = 1f;
 
     [Header("Lift Variables")]
     [SerializeField] private Transform lift;
     [SerializeField] private float liftSpeed = 1.0f;
-    [SerializeField] private float minLiftPosition = 2.4f;
-    [SerializeField] private float maxLiftPosition = 9.5f;
+    [SerializeField] private float minLiftPosition = 5f;
+    [SerializeField] private float maxLiftPosition = 10f;
 
     [Header("UI")]
     [SerializeField] private HudManager hudManager;
@@ -73,12 +80,12 @@ public class DrivingController : MonoBehaviour
     [SerializeField] private Transform steeringWheel;
     [SerializeField] private SkinnedMeshRenderer playerMesh; // This data type so we can change the skin to match player getting in after alpha
 
-    [Space(10)]
+    [Header("Bouce variables")]
     [SerializeField] float bouncingForceMultiplier = 5f;
-    [SerializeField] ForceMode bouncingForceMode = ForceMode.Acceleration;
     [Range(1,2)]
     [SerializeField] float bounceDecay = 2f;
     Vector3 addedForce = Vector3.zero;
+    [SerializeField, Min(0f)] float collisionVelocityForCrateDamage = 10f;
     [SerializeField] List<string> ignoreBounceMask;
 
     [Space(10)]
@@ -97,7 +104,12 @@ public class DrivingController : MonoBehaviour
 	[SerializeField] float shakeDuration = 0.2f;
 	[SerializeField] float shakeMagnitude = 0.05f;
 
+    [Header("Camera Boost")]
+    [SerializeField] float fovChangeMultiplier = 1.2f;
+
     [SerializeField] GameObject playerCamera = null;
+
+    [SerializeField] GameObject castRay;
 
     private Rigidbody rb;
 
@@ -108,6 +120,7 @@ public class DrivingController : MonoBehaviour
     public Transform CameraForwardTransform => cameraForwardPos;
     public Transform CameraReverseTransform => cameraReversePos;
 
+    FloatPickup floatPickup;
     bool lifting = false;
     bool selfIsLifted = false;
 
@@ -121,6 +134,7 @@ public class DrivingController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audio_enabler = GetComponent<AudioEnabler>();
+        floatPickup = GetComponent<FloatPickup>();
 
         // Camera-transform variables initialisation 
         UpdateCameraTransformPositions();
@@ -130,7 +144,11 @@ public class DrivingController : MonoBehaviour
         maxCameraForwardDist = Vector3.Magnitude(lookAtPosition - cameraForwardOrigin);
 
         playerCamera.transform.parent.transform.parent = null; // Get camera shake root
-        maxSpeed = 9.0f;
+        maxSpeed = 9.0f; //why is maxSpeed being set here?
+
+        driftTrailsContainer.transform.parent = null;
+
+        speedLinesImage.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -168,6 +186,8 @@ public class DrivingController : MonoBehaviour
 
     private void updateMove()
     {
+        if (Mathf.Abs(speed) <= maxSpeed) playerCamera.GetComponent<CameraController>().resetFOV();
+
         if (!isGrounded || selfIsLifted) return;
 
         //if triggers held
@@ -180,12 +200,15 @@ public class DrivingController : MonoBehaviour
             }
             else
             {
+                speedLinesImage.SetActive(false);
                 speed += acceleration * Time.deltaTime * sign * ((Mathf.Sign(speed) != sign) ? breakMultiplier : 1);
             }
         }
         //if triggers not held
         else
         {
+           speedLinesImage.SetActive(false);
+
            //if speed is around 0 then stop
            if (Mathf.Abs(speed) <= acceleration * Time.deltaTime * breakMultiplier)
            {
@@ -297,21 +320,21 @@ public class DrivingController : MonoBehaviour
 
     private void handleLift()
     {
-        float y = lift.localPosition.y;
+        float z = lift.localPosition.z;
 
         if (lifting)
         {
-            y += liftSpeed * Time.deltaTime;
-            y = Mathf.Clamp(y, minLiftPosition, maxLiftPosition);
+            z += liftSpeed * Time.deltaTime;
+            z = Mathf.Clamp(z, minLiftPosition, maxLiftPosition);
 
-            lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
+            lift.localPosition = new Vector3(lift.localPosition.x, lift.localPosition.y, z);
         }
         else
         {
-            y -= liftSpeed * Time.deltaTime;
-            y = Mathf.Clamp(y, minLiftPosition, maxLiftPosition);
+            z -= liftSpeed * Time.deltaTime;
+            z = Mathf.Clamp(z, minLiftPosition, maxLiftPosition);
 
-            lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
+            lift.localPosition = new Vector3(lift.localPosition.x, lift.localPosition.y, z);
         }
     }
 
@@ -394,6 +417,22 @@ public class DrivingController : MonoBehaviour
     public void OnDrift()
     {
         drifting = !drifting;
+
+        if(drifting)
+        {
+            currentTrailLeft = Instantiate(trailPrefab);
+            currentTrailLeft.transform.parent = leftTrailStart.transform;
+            currentTrailLeft.transform.position = leftTrailStart.transform.position;
+
+            currentTrailRight = Instantiate(trailPrefab);
+            currentTrailRight.transform.parent = rightTrailStart.transform;
+            currentTrailRight.transform.position = rightTrailStart.transform.position;
+        }
+        else
+        {
+            currentTrailRight.transform.parent = driftTrailsContainer.transform;
+            currentTrailLeft.transform.parent =  driftTrailsContainer.transform;
+        }
     }
 
     public void OnLift()
@@ -418,9 +457,12 @@ public class DrivingController : MonoBehaviour
 
     public void OnInteract()
     {
-        GetComponent<FloatPickup>().PickUpSelectedForklift();
+        castRay.GetComponent<CratePickUp>().PickUpSelected();
+    }
 
-        GetComponent<FloatPickup>().PickUpSelected();
+    public void OnDrop()
+    {
+        castRay.GetComponent<CratePickUp>().DropHeld();
     }
 
     public void DriftBoost()
@@ -463,6 +505,8 @@ public class DrivingController : MonoBehaviour
             boostParticlesBL.SetActive(false);
             boostParticlesBR.SetActive(false);
         }
+
+        CameraController controller = playerCamera.GetComponent<CameraController>();
 
         if (drifting)
         {
@@ -510,6 +554,10 @@ public class DrivingController : MonoBehaviour
         }
         else if (!drifting && boostReady)
         {
+            controller.fov = controller.fov * fovChangeMultiplier;
+
+            speedLinesImage.SetActive(true);
+
             switch (boostTier)
             {
                 case 0:
@@ -567,6 +615,12 @@ public class DrivingController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+		// Shake camera when colliding with crates
+		if (collision.transform.CompareTag("Float"))
+		{
+			cameraShake.Shake(shakeDuration, shakeMagnitude * speed);
+		}
+		
         if (ignoreBounceMask.Contains(collision.gameObject.tag)) return;
 
         bounced = true;
@@ -589,7 +643,18 @@ public class DrivingController : MonoBehaviour
         rigidBody.AddForce(addedForce);
 		
 		// Camera shake
-		cameraShake.Shake(shakeDuration, shakeMagnitude);
+		cameraShake.Shake(shakeDuration, shakeMagnitude * speed);
+
+        TryDropOnCollision(collision);
+    }
+
+    // Drops the forklift's held object based on a collision
+    private void TryDropOnCollision(Collision collision)
+    {
+        if (collision.relativeVelocity.magnitude >= collisionVelocityForCrateDamage)
+        {
+            floatPickup.TryDropSelectedObject();
+        }
     }
 
 }

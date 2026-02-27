@@ -22,7 +22,10 @@ public class TimeManager : MonoBehaviour
 	// Time until the level ends
     public float CurrentTimeRemaining { get; private set; }
 	// Encourage players to hurry up with red text
-	public readonly static float timerNearlyRanOutThreshhold = 15.0f;
+	public readonly static float timerNearlyRanOutThreshhold = 30.0f;
+	
+	[Header("Object References")]
+	[SerializeField] private Light sceneLight;
 	
 	// Make sure event is only called once
 	private bool timerNearlyRunOutTriggered = false;
@@ -70,6 +73,9 @@ public class TimeManager : MonoBehaviour
 					{
 						// Prevent triggering event twice
 						timerNearlyRunOutTriggered = true;
+						
+						// Make level red
+						sceneLight.color = Color.red;
 						
 						// Let other scripts know
 						onTimerNearlyRanOut?.Invoke();

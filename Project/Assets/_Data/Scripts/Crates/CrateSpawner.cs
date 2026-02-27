@@ -15,7 +15,7 @@ public class CrateSpawner : MonoBehaviour
     [SerializeField, Tooltip("Timeout event is assigned at runtime.")]
     Timer timer;
 
-    [SerializeField, Tooltip("How many objects should be spawned for a given tag.")]
+    [SerializeField, Tooltip("How many objects should be spawned for a given tag."), ContextMenuItem("Apply default damage behaviour", "ResetAllDamageBehaviours")]
     List<SpawnRequirements> spawnRequirements;
 
     private void OnValidate()
@@ -94,12 +94,8 @@ public class CrateSpawner : MonoBehaviour
     }
 
     // Spawns a crate and set its data based on its requirement. Instantiate within spawnedObjects
-    void SpawnCrate(in Transform point, in SpawnRequirements requirement)
-    {
-        requirement.instances[point] = Instantiate(cratePrefab, point).GetComponent<ICollectable>();
-        requirement.instances[point].Tag = requirement.tag;
-        requirement.instances[point].Score = requirement.crateScore;
-    }
+    void SpawnCrate(in Transform point, in SpawnRequirements requirement) 
+        => requirement.instances[point] = CrateObject.Instantiate(cratePrefab, point, requirement.tag, requirement.damageBehaviour, requirement.crateScore);
 
     // Randomise spawnable transforms (Fisher-Yates shuffle I found on stack overflow)
     // Partition list from 0 to pointer to end -> Select random element -> swap with pointer element -> decrement pointer
@@ -125,6 +121,21 @@ public class CrateSpawner : MonoBehaviour
                 Gizmos.color = req.tag.GetColourFromTag();
                 Gizmos.DrawCube(t.position, new Vector3(1, 1, 1) * (req.crateScore / 75f));
             }
+        }
+    }
+
+    // UTILITY FUNCTION
+    private void ResetAllDamageBehaviours()
+    {
+        foreach(var req in spawnRequirements)
+        {
+            req.damageBehaviour = new()
+            {
+                collisionVelocityForCrateDamage = 10f,
+                damageCoefficient = 0.4f,
+                maximumScoreLossValue = 10f,
+                maximumScoreLossPercentage = 0f
+            };
         }
     }
 }

@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PauseMenuManager : MonoBehaviour
 {
 	[Header("Settings")]
 	[Tooltip("Reference to the pause menu panel game object in the scene. This script can't be placed on the panel itself because it will be deactivated by default (therefore script will never be called)")]
 	[SerializeField] GameObject pauseMenuPanel;
+	[Tooltip("Reference to the tutorial panel game object in the scene.")]
+	[SerializeField] GameObject tutorialPanel;
+	[Tooltip("Reference to the first button selected game object in the scene.")]
+	[SerializeField] GameObject firstSelected;
 	
     void Update()
     {
@@ -32,6 +37,9 @@ public class PauseMenuManager : MonoBehaviour
 	
 	public void Pause()
 	{
+		// Select first button
+		EventSystem.current.SetSelectedGameObject(firstSelected);
+		
 		// Stop flow of time
 		Time.timeScale = 0.0f;
 		
@@ -46,5 +54,8 @@ public class PauseMenuManager : MonoBehaviour
 		
 		// Hide pause menu
 		pauseMenuPanel.SetActive(false);
+		
+		// Hide tutorial menu (in case the start button is pressed in the tutorial menu)
+		tutorialPanel.SetActive(false);
 	}
 }

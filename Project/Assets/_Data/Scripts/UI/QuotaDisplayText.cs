@@ -6,6 +6,8 @@ public class QuotaDisplayText : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI quotaReqs, quotaTimer;
+	[SerializeField]
+	Animator anim;
 
     [SerializeField]
     CollectorScheduler scheduler;
@@ -17,6 +19,10 @@ public class QuotaDisplayText : MonoBehaviour
 
     string ReqsText => $"Crate: {requirement.requiredTag}\r\nQuota: {trackedScore}/{requirement.requiredScore}";
     string GetQuotaTimeString(float time) => $"Time: {time:F1}s";
+	
+	// Red text
+	bool timeNearlyUpTriggered = false;
+	static readonly float timeNearlyUpThreshold = 10.0f;
 
     private void Awake()
     {
@@ -42,6 +48,11 @@ public class QuotaDisplayText : MonoBehaviour
         this.requirement = requirement;
         trackedScore = 0f;
         quotaReqs.SetText(ReqsText);
+		
+		// Reset red text
+		timeNearlyUpTriggered = false;
+		quotaTimer.color = Color.white;
+		anim.SetBool("Animate", false);
     }
 
     // Assigned to event -> Display the score when current collection score updates
@@ -53,6 +64,16 @@ public class QuotaDisplayText : MonoBehaviour
 
     public void OnRunningSchedulerUpdate(float time)
     {
+		// Red text check
+		if (!timeNearlyUpTriggered && time <= timeNearlyUpThreshold)
+		{
+			// Prevent triggering every frame
+			timeNearlyUpTriggered = true;
+			
+			quotaTimer.color = Color.red;
+			anim.SetBool("Animate", true);
+		}
+		
         quotaTimer.SetText(GetQuotaTimeString(time));
     }
 

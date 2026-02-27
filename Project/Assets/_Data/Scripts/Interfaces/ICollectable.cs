@@ -6,9 +6,11 @@ using UnityEngine;
 /// </summary>
 public interface ICollectable
 {
+    public float MaxScore { get; set; }
     public float Score { get; set; }
     public bool CanCollect { get; set; }
     public GameObject GameObject { get; }
+    public CrateExtensions.DamageBehaviour DamageBehaviour { get; set; }
     public CrateExtensions.CrateTag Tag { get; set; }
 
 }
