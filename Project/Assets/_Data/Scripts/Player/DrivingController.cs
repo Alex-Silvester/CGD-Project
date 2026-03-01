@@ -45,6 +45,7 @@ public class DrivingController : MonoBehaviour
     [SerializeField] GameObject trailPrefab;
     [SerializeField] GameObject leftTrailStart;
     [SerializeField] GameObject rightTrailStart;
+    [SerializeField] DriftingEffectsController driftingEffects;
     GameObject currentTrailLeft;
     GameObject currentTrailRight;
     [SerializeField]GameObject driftTrailsContainer;
@@ -484,17 +485,18 @@ public class DrivingController : MonoBehaviour
 
     public void TieredDriftBoost()
     {
+        /*
         ParticleSystem ps = boostParticlesBR.GetComponent<ParticleSystem>();
         ParticleSystem.MainModule ma = ps.main;
 
         ParticleSystem ps1 = boostParticlesBL.GetComponent<ParticleSystem>();
         ParticleSystem.MainModule ma1 = ps1.main;
-
         if(!drifting && boostParticlesBL.activeSelf)
         {
             boostParticlesBL.SetActive(false);
             boostParticlesBR.SetActive(false);
         }
+        */
 
         CameraController controller = playerCamera.GetComponent<CameraController>();
 
@@ -509,38 +511,45 @@ public class DrivingController : MonoBehaviour
             else if (boostTimer <= 2 * boostTierTimeIncrement)
             {
                 boostTier = 1;
+                boostReady = true;
+                /*
                 boostParticlesBL.SetActive(true);
                 boostParticlesBR.SetActive(true);
 
                 ma.startColor = Color.yellow;
                 ma1.startColor = Color.yellow;
-
-                boostReady = true;
+                 */
             }
             else if (boostTimer <= 3 * boostTierTimeIncrement)
             {
                 boostTier = 2;
+                boostReady = true;
 
+                /*
                 boostParticlesBL.SetActive(true);
                 boostParticlesBR.SetActive(true);
 
                 ma.startColor = Color.red;
                 ma1.startColor = Color.red;
-
-                boostReady = true;
+                 */
             }
             else if (boostTimer < 4 * boostTierTimeIncrement)
             {
                 boostTier = 3;
+                boostReady = true;
 
+                /*
                 boostParticlesBL.SetActive(true);
                 boostParticlesBR.SetActive(true);
 
                 ma.startColor = Color.blue;
                 ma1.startColor = Color.blue;
-
-                boostReady = true;
+                */
             }
+
+            // Set drifting effects to current tier and play them
+            driftingEffects.SetEffectTier(boostTier);
+            driftingEffects.Play();
         }
         else if (!drifting && boostReady)
         {
@@ -574,8 +583,9 @@ public class DrivingController : MonoBehaviour
         {
             boostTimer = 0f;
             boostTier = 0;
+            driftingEffects.Stop();
         }
-        
+
     }
 
     public void togglePlayerLifted()
