@@ -549,6 +549,7 @@ public class DrivingController : MonoBehaviour
 
             // Set drifting effects to current tier and play them
             driftingEffects.SetEffectTier(boostTier);
+            driftingEffects.Emit(true);
             driftingEffects.Play();
         }
         else if (!drifting && boostReady)
@@ -583,6 +584,7 @@ public class DrivingController : MonoBehaviour
         {
             boostTimer = 0f;
             boostTier = 0;
+            driftingEffects.Emit(false);
             driftingEffects.Stop();
         }
 
