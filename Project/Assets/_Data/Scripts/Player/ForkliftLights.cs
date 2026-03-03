@@ -3,10 +3,10 @@ using UnityEngine;
 public class ForkliftLights : MonoBehaviour
 {
 	[Header("Settings")]
-	[SerializeField] private CratePickUp forklift;
+	[SerializeField] private FloatPickup forklift;
 	[SerializeField] private GameObject[] pickupLights;
 	
-    private void Awake()
+    private void Start()
     {
         // Subscribe to events
 		forklift.onGrabbed.AddListener(OnGrabbed);

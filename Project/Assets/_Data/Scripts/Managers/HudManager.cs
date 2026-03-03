@@ -12,7 +12,6 @@ public class HudManager : MonoBehaviour
 	[Header("Quota Requirements")]
 	[SerializeField] private RectTransform quotaRequirementRectTransform;
 	[SerializeField] private Vector2 quotaRequirementThreePlayerAnchor;
-	[SerializeField] private Vector2 quotaRequirementThreePlayerOffset;
 	
 	[Header("Total Score")]
 	[SerializeField] private RectTransform totalScoreRectTransform;
@@ -27,11 +26,11 @@ public class HudManager : MonoBehaviour
 	private void Start()
 	{
 		// Is the scren split into four sections?
-		//if (LobbyMenuManager.currentPlayers.Count > 2)
-		//{
+		if (LobbyMenuManager.currentPlayers.Count > 2)
+		{
 			// Align UI along central column
 			SetupFourQuadrantUI();
-		//}
+		}
 	}
 	
 	public void SetVehiclePromptStatus(int playerNumber, bool newStatus)
@@ -63,7 +62,7 @@ public class HudManager : MonoBehaviour
 		// Setup quota requirements UI
 		quotaRequirementRectTransform.anchorMin = new Vector2(quotaRequirementThreePlayerAnchor.x, quotaRequirementThreePlayerAnchor.y);
         quotaRequirementRectTransform.anchorMax = new Vector2(quotaRequirementThreePlayerAnchor.x, quotaRequirementThreePlayerAnchor.y);
-		quotaRequirementRectTransform.anchoredPosition = new Vector2(quotaRequirementThreePlayerOffset.x, quotaRequirementThreePlayerOffset.y); // Reset
+		quotaRequirementRectTransform.anchoredPosition = new Vector2(0, 0); // Reset
 		
 		// Total score UI
 		totalScoreRectTransform.anchorMin = new Vector2(totalScoreAnchor.x, totalScoreAnchor.y);

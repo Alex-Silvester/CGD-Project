@@ -287,7 +287,6 @@ GameObject:
   - component: {fileID: 4251513908090907305}
   - component: {fileID: 988405174921369687}
   - component: {fileID: 8632340737042214374}
-  - component: {fileID: 6808863108008791463}
   m_Layer: 5
   m_Name: CollectionRequirements
   m_TagString: Untagged
@@ -368,7 +367,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quotaReqs: {fileID: 3165144101840419401}
   quotaTimer: {fileID: 9084398978845219777}
-  anim: {fileID: 6808863108008791463}
   scheduler: {fileID: 0}
 --- !u!114 &8632340737042214374
 MonoBehaviour:
@@ -396,25 +394,3 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!95 &6808863108008791463
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4412157905130010751}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fd7f7241c8862804f9dc7088d19d46c1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

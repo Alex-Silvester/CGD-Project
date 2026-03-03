@@ -96,8 +96,6 @@ public class PlayerManager : MonoBehaviour
 
             playerJoined.Invoke(player_count, player.gameObject.transform);
 
-            player.gameObject.name = $"Player {player_count}";
-
             return;
         }
 

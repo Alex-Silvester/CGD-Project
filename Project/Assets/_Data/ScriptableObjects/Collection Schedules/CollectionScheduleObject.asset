@@ -23,6 +23,5 @@ MonoBehaviour:
     requiredScore: 200
     timeLimit: 100
   quotaBonusMultiplier: 1
-  randomiseRequiredTag: 1
-  totalTime: 300
   actingScheduler: {fileID: 0}
+  totalTime: 300

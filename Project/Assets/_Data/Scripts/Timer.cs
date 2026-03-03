@@ -62,7 +62,7 @@ public class Timer : MonoBehaviour
             {
                 paused = true;
             }
-            timeout?.Invoke();
+            timeout.Invoke();
         }
         
     }

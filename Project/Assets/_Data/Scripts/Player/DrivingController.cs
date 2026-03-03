@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 public class DrivingController : MonoBehaviour
@@ -38,22 +37,23 @@ public class DrivingController : MonoBehaviour
     [Header("Drifting Variables")]
     [SerializeField] GameObject body;
     [SerializeField] float maxRotation = 30;
-    [SerializeField] Animator DriftBody;
+    [SerializeField] Animation driftAnimation;
     [SerializeField] bool manualDriftAnim = true;
     [SerializeField] float manualAnimationSpeed = 1f;
     [SerializeField] bool drifting = false;
-    [SerializeField] float driftSpeed = 100f;
+    [SerializeField] float driftMultiplier = 2f;
     [SerializeField] GameObject trailPrefab;
     [SerializeField] GameObject leftTrailStart;
     [SerializeField] GameObject rightTrailStart;
     [SerializeField] DriftingEffectsController driftingEffects;
     GameObject currentTrailLeft;
-    GameObject currentTrailRight; 
+    GameObject currentTrailRight;
     [SerializeField]GameObject driftTrailsContainer;
 
     [Header("Boost Variables")]
     [SerializeField] float boostMultiplier = 2f;
     [SerializeField] float boostTimer = 0f;
+    [SerializeField] float boostDuration = 2f;
     [SerializeField] bool boostReady = false;
     [SerializeField] float maxBoostSpeed = 20f;
     [SerializeField] int boostTier = 0;
@@ -64,27 +64,25 @@ public class DrivingController : MonoBehaviour
     [SerializeField] GameObject boostParticlesBL;
     [SerializeField] GameObject boostParticlesBR;
     [SerializeField] float boostTierTimeIncrement = 0.5f;
-    [SerializeField] GameObject speedLinesImage;
 
     float sign = 1f;
 
     [Header("Lift Variables")]
     [SerializeField] private Transform lift;
     [SerializeField] private float liftSpeed = 1.0f;
-    [SerializeField] private float minLiftPosition = 5f;
-    [SerializeField] private float maxLiftPosition = 10f;
+    [SerializeField] private float minLiftPosition = 2.4f;
+    [SerializeField] private float maxLiftPosition = 9.5f;
 
     [Header("UI")]
     [SerializeField] private HudManager hudManager;
-    [SerializeField] private GameObject dropAllUI;
-    [SerializeField] private Slider dropAllSlider;
 
     [Header("Other References")]
     [SerializeField] private Transform steeringWheel;
     [SerializeField] private SkinnedMeshRenderer playerMesh; // This data type so we can change the skin to match player getting in after alpha
 
-    [Header("Bounce variables")]
+    [Space(10)]
     [SerializeField] float bouncingForceMultiplier = 5f;
+    [SerializeField] ForceMode bouncingForceMode = ForceMode.Acceleration;
     [Range(1,2)]
     [SerializeField] float bounceDecay = 2f;
     Vector3 addedForce = Vector3.zero;
@@ -112,26 +110,19 @@ public class DrivingController : MonoBehaviour
 
     [SerializeField] GameObject playerCamera = null;
 
-    [SerializeField] GameObject castRay;
-
     private Rigidbody rb;
 
     private AudioEnabler audio_enabler;
 
     private Gamepad playerGamepad;
 
-    private bool holdingInteract = false;
-    private float interactHoldTime = 0f;
-
     public Transform CameraForwardTransform => cameraForwardPos;
     public Transform CameraReverseTransform => cameraReversePos;
 
+    FloatPickup floatPickup;
     bool lifting = false;
     bool selfIsLifted = false;
 
-    [Header("Wheel Animations")]
-    [SerializeField] Animator frontwheel;
-    [SerializeField] Animator backwheel;
 
     public void setPlayerGamepad(Gamepad gamepad)
     {
@@ -142,6 +133,7 @@ public class DrivingController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audio_enabler = GetComponent<AudioEnabler>();
+        floatPickup = GetComponent<FloatPickup>();
 
         // Camera-transform variables initialisation 
         UpdateCameraTransformPositions();
@@ -154,10 +146,6 @@ public class DrivingController : MonoBehaviour
         maxSpeed = 9.0f; //why is maxSpeed being set here?
 
         driftTrailsContainer.transform.parent = null;
-
-        speedLinesImage.SetActive(false);
-
-        dropAllUI.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -170,8 +158,7 @@ public class DrivingController : MonoBehaviour
         repositionCameraTransforms();
 
         transform.SetPositionAndRotation(transform.position, new Quaternion(0, transform.rotation.y, 0, transform.rotation.w));
-        frontwheel.SetFloat("Speed", speed);
-        backwheel.SetFloat("Speed", speed);
+
         if (TiersEnabled)
         {
             maxBoostSpeed = 30f;
@@ -182,12 +169,6 @@ public class DrivingController : MonoBehaviour
         {
             maxBoostSpeed = 20f;
             DriftBoost();
-        }
-
-        if(holdingInteract)
-        {
-            interactHoldTime += Time.deltaTime / 0.4f; //default max hold time
-            dropAllSlider.value = interactHoldTime;
         }
     }
 
@@ -202,11 +183,7 @@ public class DrivingController : MonoBehaviour
 
     private void updateMove()
     {
-        if (Mathf.Abs(speed) <= maxSpeed || selfIsLifted)
-        {
-            playerCamera.GetComponent<CameraController>().resetFOV();
-            speedLinesImage.SetActive(false);
-        }
+        if (Mathf.Abs(speed) <= maxSpeed) playerCamera.GetComponent<CameraController>().resetFOV();
 
         if (!isGrounded || selfIsLifted) return;
 
@@ -220,21 +197,18 @@ public class DrivingController : MonoBehaviour
             }
             else
             {
-                speedLinesImage.SetActive(false);
                 speed += acceleration * Time.deltaTime * sign * ((Mathf.Sign(speed) != sign) ? breakMultiplier : 1);
             }
         }
         //if triggers not held
         else
         {
-           speedLinesImage.SetActive(false);
-
            //if speed is around 0 then stop
            if (Mathf.Abs(speed) <= acceleration * Time.deltaTime * breakMultiplier)
            {
                speed = 0;    
                movement.movingValue = 0;
-            }
+           }
            //otherwise decelerate
            else
            {
@@ -277,7 +251,7 @@ public class DrivingController : MonoBehaviour
         if ((speed == 0 && !bounced) || selfIsLifted) return;
 
         //do the actual forklift rotation so it turns
-        transform.Rotate(0, sign * movement.turningValue * (drifting ? driftSpeed : rotateSpeed) * Time.deltaTime, 0);
+        transform.Rotate(0, sign * movement.turningValue * rotateSpeed * (drifting ? driftMultiplier : 1.0f) * Time.deltaTime, 0);
 
         //transform the angle of the forklift from what unity uses to a value that can be used with the maximum rotation value
         float bodyAngle = Mathf.Ceil(body.transform.localEulerAngles.y - 360f * Mathf.Floor(body.transform.localEulerAngles.y / 180f))%360;
@@ -303,7 +277,6 @@ public class DrivingController : MonoBehaviour
         {
             body.transform.localRotation = new();
             body.transform.localPosition = new();
-            DriftBody.SetFloat("DRIFT", 0);
             return;
         }
 
@@ -316,36 +289,46 @@ public class DrivingController : MonoBehaviour
             return;
         }
 
-        //rotate the body of the forklift over time
-        body.transform.RotateAround(
-            body.transform.position + body.transform.forward * body.transform.localScale.z / 2f,
-            Vector3.up,
-            sign * movement.turningValue * manualAnimationSpeed * Time.deltaTime);
-
-        //If there is an animation added for the drift
-        if (!manualDriftAnim)
+        //If there is no animation added for the drift, then do a basic, manual animation
+        if(manualDriftAnim)
         {
-            DriftBody?.SetFloat("DRIFT", movement.turningValue);
+            body.transform.RotateAround(
+                body.transform.position + body.transform.forward * body.transform.localScale.z / 2f,
+                Vector3.up,
+                sign * movement.turningValue * manualAnimationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            if(driftAnimation != null)
+            {
+                driftAnimation.Play();
+            }
+
+            //matbe not needed, need animation first if we are using one
+            body.transform.RotateAround(
+                body.transform.position + body.transform.forward * body.transform.localScale.z / 2f,
+                Vector3.up,
+                sign * movement.turningValue * maxRotation);
         }
     }
 
     private void handleLift()
     {
-        float z = lift.localPosition.z;
+        float y = lift.localPosition.y;
 
         if (lifting)
         {
-            z += liftSpeed * Time.deltaTime;
-            z = Mathf.Clamp(z, minLiftPosition, maxLiftPosition);
+            y += liftSpeed * Time.deltaTime;
+            y = Mathf.Clamp(y, minLiftPosition, maxLiftPosition);
 
-            lift.localPosition = new Vector3(lift.localPosition.x, lift.localPosition.y, z);
+            lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
         }
         else
         {
-            z -= liftSpeed * Time.deltaTime;
-            z = Mathf.Clamp(z, minLiftPosition, maxLiftPosition);
+            y -= liftSpeed * Time.deltaTime;
+            y = Mathf.Clamp(y, minLiftPosition, maxLiftPosition);
 
-            lift.localPosition = new Vector3(lift.localPosition.x, lift.localPosition.y, z);
+            lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
         }
     }
 
@@ -468,37 +451,9 @@ public class DrivingController : MonoBehaviour
 
     public void OnInteract()
     {
-        castRay.GetComponent<CratePickUp>().PickUpSelected();
-        castRay.GetComponent<CratePickUp>().PickUpSelectedForklift();
-    }
+        floatPickup.PickUpSelectedForklift();
 
-    public void OnDrop()
-    {
-        holdingInteract = true;
-        dropAllUI.SetActive(true);
-
-        castRay.GetComponent<CratePickUp>().DropHeld();
-    }
-
-    public void OnReleaseDrop()
-    {
-        holdingInteract = false;
-        dropAllUI.SetActive(false);
-        interactHoldTime = 0f;
-    }
-
-    public void OnDropHold()
-    {
-        CratePickUp cratePickup = castRay.GetComponent<CratePickUp>();
-
-        for (int i = 0; i <= cratePickup.heldObjectsCount; i++)
-        {
-            cratePickup.DropHeld();    
-        }
-
-        dropAllUI.SetActive(false);
-        interactHoldTime = 0f;
-        holdingInteract = false;
+        floatPickup.PickUpSelected();
     }
 
     public void DriftBoost()
@@ -599,9 +554,7 @@ public class DrivingController : MonoBehaviour
         }
         else if (!drifting && boostReady)
         {
-            controller.fov = controller.startingFov * fovChangeMultiplier;
-
-            speedLinesImage.SetActive(true);
+            controller.fov = controller.fov * fovChangeMultiplier;
 
             switch (boostTier)
             {
@@ -700,7 +653,7 @@ public class DrivingController : MonoBehaviour
     {
         if (collision.relativeVelocity.magnitude >= collisionVelocityForCrateDamage)
         {
-            castRay.GetComponent<CratePickUp>().DropHeld();
+            floatPickup.TryDropSelectedObject();
         }
     }
 

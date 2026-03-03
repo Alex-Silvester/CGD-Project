@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class GameOverPanel : MonoBehaviour
 {
@@ -14,37 +13,10 @@ public class GameOverPanel : MonoBehaviour
 	[Tooltip("Reference to the button that should be selected by the gamepad when the game over panel is shown")]
 	[SerializeField] private GameObject firstButton;
 	
-	[Header("Cache")]
-	[Tooltip("Reference to the game manager in the scene")]
-	[SerializeField] private GameManager gameManager;
-	
 	private void Start()
 	{
 		// Subscribe to events
 		GameOverState.onEntered += Show;
-	}
-	
-	private void Update()
-	{
-		// Ignore input checks until game over
-		if (!panel.activeSelf)
-			return;
-		
-		// Check all active gamepads
-		// Source - https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.Gamepad.html
-		foreach (Gamepad gamepad in Gamepad.all)
-		{
-			// Replay?
-			if (gamepad.buttonSouth.wasPressedThisFrame)
-			{
-				gameManager.ReloadCurrentScene();
-			}
-			// Main menu?
-			else if (gamepad.buttonEast.wasPressedThisFrame)
-			{
-				gameManager.LoadScene("MainMenu");
-			}
-		}
 	}
 	
 	/// <summary>

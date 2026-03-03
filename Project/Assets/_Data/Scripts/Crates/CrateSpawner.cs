@@ -73,7 +73,7 @@ public class CrateSpawner : MonoBehaviour
     public void StopSpawner() => timer.paused = true;
 
     // Attempts to spawn a crate at each point if its mapped GameObject is null
-    void TrySpawnCrates()
+    protected void TrySpawnCrates()
     {
         // Loop through each requirement and spawn in as many crates are needed
         foreach (var req in spawnRequirements)
@@ -96,6 +96,20 @@ public class CrateSpawner : MonoBehaviour
     // Spawns a crate and set its data based on its requirement. Instantiate within spawnedObjects
     void SpawnCrate(in Transform point, in SpawnRequirements requirement) 
         => requirement.instances[point] = CrateObject.Instantiate(cratePrefab, point, requirement.tag, requirement.damageBehaviour, requirement.crateScore);
+
+    // Randomise spawnable transforms (Fisher-Yates shuffle I found on stack overflow)
+    // Partition list from 0 to pointer to end -> Select random element -> swap with pointer element -> decrement pointer
+    static void ShuffleList<T>(List<T> list)
+    {
+        var rnd = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rnd.Next(0, n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+    }
 
     // Draws the spawner locations and what colour they are for. Size is also based on the score 
     private void OnDrawGizmosSelected()

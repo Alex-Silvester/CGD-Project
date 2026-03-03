@@ -95,18 +95,4 @@ public static class CrateExtensions
         };
     }
 
-    // Randomise spawnable transforms (Fisher-Yates shuffle I found on stack overflow)
-    // Partition list from 0 to pointer to end -> Select random element -> swap with pointer element -> decrement pointer
-    public static void ShuffleList<T>(List<T> list)
-    {
-        var rnd = new System.Random();
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rnd.Next(0, n + 1);
-            (list[n], list[k]) = (list[k], list[n]);
-        }
-    }
-
 }
