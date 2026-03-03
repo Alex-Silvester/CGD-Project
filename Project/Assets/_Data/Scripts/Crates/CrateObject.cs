@@ -19,12 +19,11 @@ public class CrateObject : MonoBehaviour, ICollectable
     bool useColouredTags = true;
 
     float maxScore;
-    bool collect;
     string startingPromptText;
     ContextualPromptSource promptSource;
-    MaterialPropertyBlock block;
     PhysicsPickup pickup;
     TextMeshPro[] textObjects;
+    Material material;
 
     // As in the minimum score the crate can have
     float MaximumScoreReduction => maxScore * (1 - DamageBehaviour.maximumScoreLossPercentage) - DamageBehaviour.maximumScoreLossValue;
@@ -50,10 +49,10 @@ public class CrateObject : MonoBehaviour, ICollectable
 
     private void Awake()
     {
+        CanCollect = CanDamage = true;
+        material = GetComponent<Renderer>().material;
         textObjects = GetComponentsInChildren<TextMeshPro>();
         promptSource = GetComponentInChildren<ContextualPromptSource>();
-        block = new MaterialPropertyBlock();
-        collect = true;
         startingPromptText = "<sprite name=\"Xbox_Y\">";
 
         // Bind grabbing event to pickup controller
@@ -88,7 +87,7 @@ public class CrateObject : MonoBehaviour, ICollectable
         var relativeVelocity = collision.relativeVelocity;
         if (relativeVelocity.magnitude > DamageBehaviour.collisionVelocityForCrateDamage)
         {
-            DamageCrate(relativeVelocity);
+            if (CanDamage) DamageCrate(relativeVelocity);
         }
     }
 
@@ -123,32 +122,24 @@ public class CrateObject : MonoBehaviour, ICollectable
     public DamageBehaviour DamageBehaviour { get; set; }
 
     public GameObject GameObject { get => gameObject; }
+    public bool CanCollect { get; set; }
 
-    public bool CanCollect
-    {
-        get => collect;
-        set => collect = value;
-    }
+    public bool CanDamage { get; set; }
 
     // Colour this object based on its tag
-    void RecolourCrate()
-    {
-        var renderer = GetComponent<Renderer>();
-        renderer.GetPropertyBlock(block);
-        block.SetColor("_BaseColor", crateTag.GetColourFromTag());
-        renderer.SetPropertyBlock(block);
-    }
+    void RecolourCrate() => material.SetColor("_Color", crateTag.GetColourFromTag());
 
     // Make the object collect-able or not
     void OnGrabbed()
     {
-        CanCollect = false;
         UpdatePromptTextToDrop();
+        CanCollect = false;
     }
+
     void OnDropped() 
     { 
-        CanCollect = true;
         UpdatePromptTextToGrab();
+        CanCollect = true;
     }
 
     // Reduces the crate's score and displays the text for that

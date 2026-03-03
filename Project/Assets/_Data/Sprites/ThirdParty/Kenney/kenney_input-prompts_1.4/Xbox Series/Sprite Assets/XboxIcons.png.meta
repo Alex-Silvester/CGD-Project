@@ -329,6 +329,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: XboxIcons_10
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cabceac1c88e39c438dee9fbc2fdd25a
+      internalID: 1326237179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: XboxIcons_11
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ced904f2974459499cd8fc532011e78
+      internalID: -1809431732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -347,6 +391,8 @@ TextureImporter:
     nameFileIdTable:
       XboxIcons_0: -1992898281
       XboxIcons_1: 1247297388
+      XboxIcons_10: 1326237179
+      XboxIcons_11: -1809431732
       XboxIcons_2: -1289430963
       XboxIcons_3: 1835000386
       XboxIcons_4: 949844276

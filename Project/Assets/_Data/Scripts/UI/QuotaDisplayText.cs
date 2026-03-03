@@ -6,6 +6,8 @@ public class QuotaDisplayText : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI quotaReqs, quotaTimer;
+	[SerializeField]
+	Animator anim;
 
     [SerializeField]
     CollectorScheduler scheduler;
@@ -15,8 +17,12 @@ public class QuotaDisplayText : MonoBehaviour
     CrateExtensions.ScheduleQuota requirement;
     float trackedScore;
 
-    string ReqsText => $"Crate: {requirement.requiredTag}\r\nQuota: {trackedScore}/{requirement.requiredScore}";
-    string GetQuotaTimeString(float time) => $"Time: {time:F1}s";
+    string ReqsText => $"Collect\n<color={requirement.requiredTag.ToString()}>{requirement.requiredTag} Crates</color><line-height=50>\n</line-height>Needed\r\n{trackedScore}/{requirement.requiredScore}";
+    string GetQuotaTimeString(float time) => $"{time:F0}s Remaining";
+	
+	// Red text
+	bool timeNearlyUpTriggered = false;
+	static readonly float timeNearlyUpThreshold = 10.0f;
 
     private void Awake()
     {
@@ -35,6 +41,22 @@ public class QuotaDisplayText : MonoBehaviour
         if (scheduler == null) return;
         scheduler.OnRunningUpdate -= OnRunningSchedulerUpdate;
     }
+	
+	private Color RequiredTagToColour(string tag)
+	{
+        switch (tag)
+        {
+        case "Red":
+            return Color.red;
+        case "Green":
+            return Color.green;
+        case "Blue":
+			return Color.blue;
+        default:
+			Debug.LogWarning(tag + " is not associated with a colour");
+            return Color.white;
+        }
+	}
 
     // Assigned to event -> Update displated requirement and reset tracked score
     public void OnRequirementUpdated(CrateExtensions.ScheduleQuota requirement)
@@ -42,6 +64,11 @@ public class QuotaDisplayText : MonoBehaviour
         this.requirement = requirement;
         trackedScore = 0f;
         quotaReqs.SetText(ReqsText);
+		
+		// Reset red text
+		timeNearlyUpTriggered = false;
+		quotaTimer.color = Color.white;
+		anim.SetBool("Animate", false);
     }
 
     // Assigned to event -> Display the score when current collection score updates
@@ -53,6 +80,16 @@ public class QuotaDisplayText : MonoBehaviour
 
     public void OnRunningSchedulerUpdate(float time)
     {
+		// Red text check
+		if (!timeNearlyUpTriggered && time <= timeNearlyUpThreshold)
+		{
+			// Prevent triggering every frame
+			timeNearlyUpTriggered = true;
+			
+			quotaTimer.color = Color.red;
+			anim.SetBool("Animate", true);
+		}
+		
         quotaTimer.SetText(GetQuotaTimeString(time));
     }
 

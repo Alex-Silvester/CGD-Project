@@ -18,16 +18,19 @@ EditorBuildSettings:
     path: Assets/_Data/Scenes/Menus/LobbyMenu.unity
     guid: 183b39026cf4677468b52d69c5e9b4a8
   - enabled: 1
-    path: Assets/_Data/Scenes/LevelSelect.unity
+    path: Assets/_Data/Scenes/Menus/LevelSelect.unity
     guid: c9a4b7aaa0b82ef40ac242f0a57d1526
   - enabled: 1
-    path: Assets/_Data/Scenes/Game.unity
+    path: Assets/_Data/Scenes/Menus/BetaTutorialScreen.unity
+    guid: c37a0d4ba50751f46a958b9984ba1f78
+  - enabled: 1
+    path: Assets/_Data/Scenes/Testing/Game.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/_Data/Scenes/AlphaLevel/AlphaLevel.unity
     guid: d29aa338c83941243b6a02f6e876609f
   - enabled: 1
-    path: Assets/_Data/Scenes/Playground.unity
+    path: Assets/_Data/Scenes/Testing/Playground.unity
     guid: 3c9ce1ac94d93184fa9c14e78bd36c25
   - enabled: 1
     path: Assets/_Data/Scenes/NewLevel1.unity

@@ -68,6 +68,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Drop",
+                    "type": "Button",
+                    "id": "c9c92cb9-33b7-4c23-b3b4-00a4948bd71a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReleaseDrop",
+                    "type": "Button",
+                    "id": "5a938ff8-c756-4ddb-8314-41747993c4af",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DropHold",
+                    "type": "Button",
+                    "id": "2f62470d-6ebb-4b67-8ef4-0c7f57307a70",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -172,6 +199,17 @@
                 },
                 {
                     "name": "",
+                    "id": "eeca2f55-90ae-4e6f-9ffa-7eb055eadceb",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ReleaseDrop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "93118656-c772-4a77-86f3-4ab3b1b4b953",
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",
@@ -244,6 +282,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Lift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eeb808d5-3be3-4e72-afe3-7fc8bda23756",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94a5340d-e497-4e66-a5a4-f47cc295e87d",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "DropHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

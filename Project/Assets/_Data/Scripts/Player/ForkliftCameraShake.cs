@@ -58,12 +58,12 @@ public class ForkliftCameraShake : MonoBehaviour
 		
 		while (elapsed < duration)
 		{
-			// Offset on X and Y by a random amount each frame
-			float x = Random.Range(-1f, 1f) * magnitude;
+			// Offset on Y and Z by a random amount each frame
 			float y = Random.Range(-1f, 1f) * magnitude;
+			float z = Random.Range(-1f, 1f) * magnitude;
 			
-			// No shaking on the Z axis
-			cameraHolder.localPosition = new Vector3(x, y, originalPosition.z);
+			// No shaking on the Y axis
+			cameraHolder.localPosition = new Vector3(originalPosition.x, y, z);
 			
 			elapsed += Time.deltaTime;
 			

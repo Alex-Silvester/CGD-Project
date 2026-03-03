@@ -253,7 +253,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0cfb3e30ea8885c4abc99c131cdbeb4b, type: 2}
+  - {fileID: 2100000, guid: abf779c7f47e4364aa40183d88f1dee2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -338,10 +338,6 @@ MonoBehaviour:
   score: 100
   crateTag: 0
   useColouredTags: 1
-  collisionVelocityForCrateDamage: 10
-  damageCoefficient: 0.4
-  maximumScoreLossValue: 0
-  maximumScoreLossPercentage: 1
 --- !u!114 &6758174210526124029
 MonoBehaviour:
   m_ObjectHideFlags: 0
