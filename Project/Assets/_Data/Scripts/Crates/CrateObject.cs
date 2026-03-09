@@ -21,9 +21,13 @@ public class CrateObject : MonoBehaviour, ICollectable
     float maxScore;
     string startingPromptText;
     ContextualPromptSource promptSource;
-    MaterialPropertyBlock block;
     PhysicsPickup pickup;
     TextMeshPro[] textObjects;
+    Material material;
+
+    [SerializeField] GameObject tempNewCrateMeshEdges;
+    [SerializeField] GameObject tempNewCrateMeshSupports;
+
 
     // As in the minimum score the crate can have
     float MaximumScoreReduction => maxScore * (1 - DamageBehaviour.maximumScoreLossPercentage) - DamageBehaviour.maximumScoreLossValue;
@@ -49,11 +53,10 @@ public class CrateObject : MonoBehaviour, ICollectable
 
     private void Awake()
     {
-        CanCollect = true;
-
+        CanCollect = CanDamage = true;
+        material = GetComponent<Renderer>().material;
         textObjects = GetComponentsInChildren<TextMeshPro>();
         promptSource = GetComponentInChildren<ContextualPromptSource>();
-        block = new MaterialPropertyBlock();
         startingPromptText = "<sprite name=\"Xbox_Y\">";
 
         // Bind grabbing event to pickup controller
@@ -88,7 +91,7 @@ public class CrateObject : MonoBehaviour, ICollectable
         var relativeVelocity = collision.relativeVelocity;
         if (relativeVelocity.magnitude > DamageBehaviour.collisionVelocityForCrateDamage)
         {
-            DamageCrate(relativeVelocity);
+            if (CanDamage) DamageCrate(relativeVelocity);
         }
     }
 
@@ -125,23 +128,29 @@ public class CrateObject : MonoBehaviour, ICollectable
     public GameObject GameObject { get => gameObject; }
     public bool CanCollect { get; set; }
 
+    public bool CanDamage { get; set; }
+
     // Colour this object based on its tag
     void RecolourCrate()
-    {
-        var renderer = GetComponent<Renderer>();
-        renderer.GetPropertyBlock(block);
-        block.SetColor("_BaseColor", crateTag.GetColourFromTag());
-        renderer.SetPropertyBlock(block);
+    { 
+        material.SetColor("_Color", crateTag.GetColourFromTag());
+
+        //Temporary fix
+        tempNewCrateMeshEdges.GetComponent<Renderer>().material.SetColor("_Color", crateTag.GetColourFromTag());
+        tempNewCrateMeshSupports.GetComponent<Renderer>().material.SetColor("_Color", crateTag.GetColourFromTag());
     }
 
     // Make the object collect-able or not
     void OnGrabbed()
     {
         UpdatePromptTextToDrop();
+        CanCollect = false;
     }
-    void OnDropped() 
+
+    void OnDropped()   
     { 
         UpdatePromptTextToGrab();
+        CanCollect = true;
     }
 
     // Reduces the crate's score and displays the text for that

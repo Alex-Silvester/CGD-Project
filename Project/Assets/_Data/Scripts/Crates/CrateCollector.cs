@@ -11,9 +11,6 @@ using static CrateExtensions;
 public class CrateCollector : MonoBehaviour
 {
     [SerializeField]
-    GameObject marker;
-
-    [SerializeField]
     ScoreObject scoreObject;
 
     [SerializeField]
@@ -24,11 +21,11 @@ public class CrateCollector : MonoBehaviour
 
     [Space, Header("Settings")]
 
-    [SerializeField]
-    Color activeColor = Color.green;
+    [SerializeField, Range(0f, 100f)]
+    float rejectionLaunchForce = 10f;
 
-    [SerializeField]
-    Color inactiveColor = Color.red;
+    [SerializeField, Range(0f, 100f)]
+    float acceptLaunchForce = 5f;
 
     [Space, Header("Event Bindings")]
 
@@ -49,10 +46,12 @@ public class CrateCollector : MonoBehaviour
     bool wasStarted = false;
     List<ICollectable> forCollection;
     ScheduleQuota collectionRequirement;
-    Material markerMaterial;
 
-    public float Quota => collectionRequirement.requiredScore;
-    //public CrateTag RequiredTag => collectionRequirement.requiredTag;
+    // Get vector for launching a crate
+    Vector3 GetLaunchForce(float magnitude) => transform.forward * magnitude + new Vector3(0f, 5f, 0f);
+
+    // Returns predicted score
+    float GetScoreWaitingInCollection() => forCollection.Sum(item => item.Score);
 
     private void OnValidate()
     {
@@ -69,17 +68,11 @@ public class CrateCollector : MonoBehaviour
 
     void Initialise()
     {
-        if (!TryGetComponent(out Collider collectorCollider))
+        if (!TryGetComponent(out Collider _))
         {
             Debug.LogWarning("Collector is missing a collider.");
         }
-
-        if (marker.TryGetComponent(out Renderer renderer))
-        {
-            markerMaterial = renderer.sharedMaterial;
-            markerMaterial.SetColor("_BaseColor", activeColor);
-        }
-
+         
         forCollection = new List<ICollectable>();
     }
 
@@ -111,7 +104,6 @@ public class CrateCollector : MonoBehaviour
         StartCollector();
     }
 
-
     // If other is a collectable add it to list
     private void OnTriggerEnter(Collider other)
     {
@@ -125,20 +117,34 @@ public class CrateCollector : MonoBehaviour
     {
         if (other.TryGetComponent(out ICollectable collectable))
         {
-            RemoveCollectable(collectable);
+            // RemoveCollectable(collectable);
         }
     }
 
     // Will attempt to collect the given collectable
     void TryCollect(ICollectable collectable)
     {
-        if (canCollect && collectable.CanCollect && 
-            collectable.Tag == collectionRequirement.requiredTag && 
-            !forCollection.Contains(collectable))
+        // Nothing is collectable
+        if (!canCollect || collectable.CanCollect == false) return;
+
+        if (collectable.Tag == collectionRequirement.requiredTag && !forCollection.Contains(collectable))
         {
             forCollection.Add(collectable);
             onItemsForCollectionChanged.Invoke(GetScoreWaitingInCollection());
+            collectable.CanDamage = collectable.CanCollect = false;
+            collectable.GameObject.GetComponent<Rigidbody>().AddForce(-GetLaunchForce(acceptLaunchForce), ForceMode.Impulse);
         }
+        else if (collectable.Tag != collectionRequirement.requiredTag)
+        {
+            /* This should be the proper solution to handling the crate being dropped off incorectly
+             * for now we're just gonna destroy it and let the crate spawner bring it back to life
+            var rb = collectable.GameObject.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(GetLaunchForce(rejectionLaunchForce) + new Vector3(0f, 1f, 0f), ForceMode.Impulse);
+            */
+            Destroy(collectable.GameObject);
+        }
+
     }
 
     // Remove collectable from the list
@@ -147,6 +153,7 @@ public class CrateCollector : MonoBehaviour
         if (canCollect && forCollection.Contains(collectable))
         {
             forCollection.Remove(collectable);
+            collectable.CanDamage = true;
             onItemsForCollectionChanged.Invoke(GetScoreWaitingInCollection());
         }
     }
@@ -210,7 +217,6 @@ public class CrateCollector : MonoBehaviour
     internal void SetCollection(bool can)
     {
         canCollect = can;
-        AdjustMaterial(can);
 
         if (can)
         {
@@ -226,28 +232,13 @@ public class CrateCollector : MonoBehaviour
     void DoCollect() => SetCollection(true);
     void NoCollect() => SetCollection(false);
 
-    // Returns predicted score
-    float GetScoreWaitingInCollection() => forCollection.Sum(item => item.Score);
-
-    // Change material on object based on canCollect state
-    private void AdjustMaterial(bool toActive)
-    {
-        if (toActive)
-        {
-            markerMaterial.SetColor("_BaseColor", activeColor);
-        }
-        else
-        {
-            markerMaterial.SetColor("_BaseColor", inactiveColor);
-        }
-    }
-
     // Play successs or fail audio only if the state is in playing
     void ProcessSuccessFailAudio(bool pass)
     {
         if (audioEnabler == null)
         {
             Debug.LogWarning("Crate collector does not have an AudioEnabler to play sounds from");
+            return;
         }
 
         if (GameManager.instance.currentState == GameManager.instance.playingState)

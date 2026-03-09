@@ -17,7 +17,10 @@ public class LobbyMenuManager : MonoBehaviour
 	[Header("Cache")]
 	[Tooltip("References to the Game Object in the scene each gamepad image is on. Index 0 (the first one) will be player 1 and so on.")]
 	[SerializeField] private GameObject[] playerControllerImages; // Offset by 1 (0 = player 1)
-	[Tooltip("Reference to the Button in the scene that will start the game")]
+    [SerializeField] private GameObject[] playerButtonImages; // Offset by 1 (0 = player 1)
+    [SerializeField] private GameObject[] playerNumberText; // Offset by 1 (0 = player 1)
+    [SerializeField] private GameObject[] playerConnectText; // Offset by 1 (0 = player 1)
+    [Tooltip("Reference to the Button in the scene that will start the game")]
 	[SerializeField] private Button startButton;
 	[Tooltip("Reference to the Game Object with the instructions text in the scene")]
 	[SerializeField] private GameObject instructionsText;
@@ -57,8 +60,8 @@ public class LobbyMenuManager : MonoBehaviour
 		// Source - https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.Gamepad.html
 		foreach (Gamepad gamepad in Gamepad.all)
 		{
-			// Has this gamepad just pressed the X button?
-			if (gamepad.buttonWest.wasPressedThisFrame)
+			// Has this gamepad just pressed the A button?
+			if (gamepad.buttonSouth.wasPressedThisFrame)
 			{
 				// Prevent the same player joining twice
 				if (!currentPlayers.Contains(gamepad))
@@ -129,7 +132,31 @@ public class LobbyMenuManager : MonoBehaviour
 			else
 				// Show this player isn't active
 				playerControllerImages[i].SetActive(false);
-		}
+
+            // Do we have this many players?
+            if (currentPlayers.Count > i)
+                // Should this player is active
+                playerButtonImages[i].SetActive(false);
+            else
+                // Show this player isn't active
+                playerButtonImages[i].SetActive(true);
+
+            // Do we have this many players?
+            if (currentPlayers.Count > i)
+                // Should this player is active
+                playerNumberText[i].SetActive(true);
+            else
+                // Show this player isn't active
+                playerNumberText[i].SetActive(false);
+
+            // Do we have this many players?
+            if (currentPlayers.Count > i)
+                // Should this player is active
+                playerConnectText[i].SetActive(false);
+            else
+                // Show this player isn't active
+                playerConnectText[i].SetActive(true);
+        }
 	}
 	
 	#endregion Lobby

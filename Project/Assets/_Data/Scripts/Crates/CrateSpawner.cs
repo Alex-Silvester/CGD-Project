@@ -16,7 +16,7 @@ public class CrateSpawner : MonoBehaviour
     Timer timer;
 
     [SerializeField, Tooltip("How many objects should be spawned for a given tag."), ContextMenuItem("Apply default damage behaviour", "ResetAllDamageBehaviours")]
-    List<SpawnRequirements> spawnRequirements;
+    List<SpawnRequirements> spawnRequirements = new List<SpawnRequirements>();
 
     private void OnValidate()
     {
@@ -73,7 +73,7 @@ public class CrateSpawner : MonoBehaviour
     public void StopSpawner() => timer.paused = true;
 
     // Attempts to spawn a crate at each point if its mapped GameObject is null
-    protected void TrySpawnCrates()
+    void TrySpawnCrates()
     {
         // Loop through each requirement and spawn in as many crates are needed
         foreach (var req in spawnRequirements)
@@ -83,9 +83,10 @@ public class CrateSpawner : MonoBehaviour
             List<Transform> validPoints = allPoints.FindAll(item => (Object)req.instances[item] == null);
             ShuffleList(validPoints);
 
-            // Spawn more crates until we've reached the max spawn count
-            int j = 0;
-            for (int i = req.Spawned; i < req.spawnCount;  i++)
+            // Spawn more crates until we've reached the max spawn count or spawned at all valid points
+            int j = 0,
+                k = Mathf.Clamp(req.spawnCount,0 , validPoints.Count);
+            for (int i = req.Spawned; i < k;  i++)
             {
                 SpawnCrate(validPoints[j], req);
                 j++;
@@ -111,31 +112,58 @@ public class CrateSpawner : MonoBehaviour
         }
     }
 
-    // Draws the spawner locations and what colour they are for. Size is also based on the score 
+    // UTILITY FUNCTIONS
+#if UNITY_EDITOR
+    [Space, Header("Editor utilities")]
+
+    [SerializeField, Tooltip("Scale for the gizmo of a spawn point box. " +
+        "As the size is a ratio between this value and their score, the value of this property determines the score for a box to be drawn with a 1x1x1 size.")]
+    float spawnPointGizmoScale = 50f;
+
+    [SerializeField, Tooltip(
+        "Draw coloured cubes for each of the spawn points. " +
+        "This will only work if drawGizmos is initially set to true. " +
+        "if drawGizmosOnSelected is true, the boxes are only shown if this object is selected.")]
+    bool drawGizmos, drawGizmosOnSelected;
+
     private void OnDrawGizmosSelected()
+    {
+        if (drawGizmos && drawGizmosOnSelected) DrawSpawnPointGizmos();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (drawGizmos && !drawGizmosOnSelected) DrawSpawnPointGizmos();
+    }
+
+    // Draws the spawner locations and what colour they are for. Size is also based on the score 
+    private void DrawSpawnPointGizmos()
     {
         foreach (var req in spawnRequirements)
         {
             foreach (Transform t in req.parentTransform.GetComponentsInChildren<Transform>().Skip(1).ToArray())
             {
                 Gizmos.color = req.tag.GetColourFromTag();
-                Gizmos.DrawCube(t.position, new Vector3(1, 1, 1) * (req.crateScore / 75f));
+                Gizmos.DrawCube(t.position, new Vector3(1f, 1f, 1f) * (req.crateScore * (1/ spawnPointGizmoScale)));
             }
         }
     }
 
-    // UTILITY FUNCTION
+    // Apply a default damage behaviour
     private void ResetAllDamageBehaviours()
     {
+        DamageBehaviour def = new()
+        {
+            collisionVelocityForCrateDamage = 10f,
+            damageCoefficient = 0.4f,
+            maximumScoreLossValue = 10f,
+            maximumScoreLossPercentage = 0f
+        };
         foreach(var req in spawnRequirements)
         {
-            req.damageBehaviour = new()
-            {
-                collisionVelocityForCrateDamage = 10f,
-                damageCoefficient = 0.4f,
-                maximumScoreLossValue = 10f,
-                maximumScoreLossPercentage = 0f
-            };
+            req.damageBehaviour = def;
         }
     }
+#endif
+
 }

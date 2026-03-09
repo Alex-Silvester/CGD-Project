@@ -50,6 +50,8 @@ MonoBehaviour:
     musicClip: {fileID: 8300000, guid: 4e356a72ebeefc248848b5fbf6c3e132, type: 3}
   - sceneName: NewLevel1
     musicClip: {fileID: 8300000, guid: 56f650ddd68b7b642aa4aedba0d6d0a1, type: 3}
+  - sceneName: Level 1
+    musicClip: {fileID: 8300000, guid: 56f650ddd68b7b642aa4aedba0d6d0a1, type: 3}
   audioSrc: {fileID: 8240754139127309827}
 --- !u!82 &8240754139127309827
 AudioSource:

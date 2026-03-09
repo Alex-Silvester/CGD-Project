@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -36,9 +37,18 @@ public class TimeRemainingText : MonoBehaviour
 		
 		// Update text to one decimal place (the decimal place makes the number appear to be decreasing faster than it really is)
 		if (TimeManager.instance.CurrentTimeRemaining > 0)
-			currentTimeRemainingText.text = "Time: " + TimeManager.instance.CurrentTimeRemaining.ToString("F1") + "s";
+		{
+			// Convert float (seconds) to minutes and seconds remaining
+			// Source - https://discussions.unity.com/t/convert-float-to-time-minutes-and-seconds/742908/10
+			var ts = TimeSpan.FromSeconds(TimeManager.instance.CurrentTimeRemaining);
+			
+			// E.g. 6:07
+			currentTimeRemainingText.text = "Time " + string.Format("{0}:{1:00}", ts.Minutes, ts.Seconds);
+		}
 		else
+		{
 			currentTimeRemainingText.text = "Time's Up!";
+		}
 	}
 	
 	private void OnHurryUp()

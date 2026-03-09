@@ -17,6 +17,7 @@ public static class CrateExtensions
         [Tooltip("This must be the game object whose child transforms are used as spawn points.")]
         public Transform parentTransform;
         public CrateTag tag;
+        [Min(0)]
         public int spawnCount;
         public int crateScore;
         public DamageBehaviour damageBehaviour;
@@ -93,6 +94,20 @@ public static class CrateExtensions
             CrateTag.Blue => Color.blue,
             _ => Color.white,
         };
+    }
+
+    // Randomise spawnable transforms (Fisher-Yates shuffle I found on stack overflow)
+    // Partition list from 0 to pointer to end -> Select random element -> swap with pointer element -> decrement pointer
+    public static void ShuffleList<T>(List<T> list)
+    {
+        var rnd = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rnd.Next(0, n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
     }
 
 }

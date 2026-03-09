@@ -86,8 +86,6 @@ public class VolumeSlider : MonoBehaviour
 			return -1;
 		}
 		
-		float volume = 1.0f;
-		
         switch (volumeType)
         {
             case VolumeType.SFX:

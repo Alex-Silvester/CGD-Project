@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,12 +19,32 @@ public class ButtonDetector : MonoBehaviour
         {
             pressEvent?.Invoke();
             button.transform.position = pressedTransform.position;
+            GetComponent<AudioEnabler>().Enable("Button");
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
+        {
+            releaseEvent?.Invoke();
+            button.transform.position = releasedTransform.position;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    { 
+        if (collider.gameObject.tag == "Player")
+        {
+            pressEvent?.Invoke();
+            button.transform.position = pressedTransform.position;
+            GetComponent<AudioEnabler>().Enable("Button");
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "Player")
         {
             releaseEvent?.Invoke();
             button.transform.position = releasedTransform.position;

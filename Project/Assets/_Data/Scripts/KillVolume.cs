@@ -18,30 +18,13 @@ public class KillVolume : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Lift")
-            return;
-
-        if(other.tag == "TriggerPrompt")
-            return ;
-
-        Debug.Log(other.gameObject.name);
-        if(other.tag == "Player")
+        if(other.tag == "Player" || other.tag == "Float")
         {
+            Debug.LogError($"Kill volume \"{name}\" killed {other.gameObject.name}");
             var player_character = other.gameObject.transform;
             player_character.GetComponent<CharacterController>().enabled = false;
             player_character.transform.position = respawn_pos.position;
             player_character.GetComponent <CharacterController>().enabled = true;   
-        }
-        else if (other.tag == "Forklift")
-        {
-            var forklift = other.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-            forklift.GetComponent<CharacterController>().enabled = false;
-            forklift.transform.position = respawn_pos.position;
-            forklift.GetComponent<CharacterController>().enabled = true;
-        }
-        else
-        {
-            other.transform.position = respawn_pos.position;
         }
     }
 }

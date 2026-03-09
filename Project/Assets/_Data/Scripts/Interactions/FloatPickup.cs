@@ -20,7 +20,6 @@ public class FloatPickup : MonoBehaviour
     [SerializeField] bool has_forklift;
     [SerializeField] RaycastHit hit;
     [SerializeField] private GameObject held_object;
-    float timer = 0;
 
 	// Events
 	public UnityEvent onGrabbed = new UnityEvent();

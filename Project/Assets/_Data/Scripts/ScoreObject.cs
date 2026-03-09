@@ -63,22 +63,8 @@ public class ScoreObject : ScriptableObject
     // Returns how many stars there are based on the percentage of maximum score
     private int GetStars()
     {
-        float x = CurrentScore / maxScore;
-
-        if (x < 0.2) 
-        { 
-            Debug.Log("Score too low!"); 
-            return 0; 
-        }
-
-        if (x > 1.0) 
-        {
-            Debug.LogError("Score out of range"); 
-            return -1; 
-        }
-
         // Return the range index which x is in
-        return Mathf.FloorToInt(x / starRangePercentage);
+        return Mathf.FloorToInt(Mathf.Clamp(CurrentScore / maxScore, 0, 1) / starRangePercentage);
     }
 
     /// <summary>

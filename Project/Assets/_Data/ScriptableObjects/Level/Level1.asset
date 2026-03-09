@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   displayName: Warehouse 1-1
-  sceneName: NewLevel1
+  sceneName: Level 1
   screenshot: {fileID: 0}
   scoreRequirements:
     oneStar: 300

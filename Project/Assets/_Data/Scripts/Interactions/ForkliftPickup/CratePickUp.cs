@@ -3,10 +3,39 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+
+//Used to sort a list of gameObjects based on their distance to a transform
+public class DistanceCompare : IComparer<GameObject>
+{
+    private Transform positionTransform;
+
+    public DistanceCompare(Transform transform)
+    {
+        positionTransform = transform;
+
+    }
+
+    // Compares by Height, Length, and Width.
+    public int Compare(GameObject x, GameObject y)
+    {
+        Vector3 posA = x.transform.position;
+        Vector3 posB = y.transform.position;
+
+        return Vector3.Distance(posA, positionTransform.position).CompareTo(Vector3.Distance(posB, positionTransform.position));
+    }
+}
 
 
 public class CratePickUp : MonoBehaviour
 {
+    public enum PickUpDirection {
+        None,
+        Right,
+        Left,
+        Forward
+    }
+
     [SerializeField] GameObject PickupLocation;
     [SerializeField] Vector3 pickupPositionOffset;
 
@@ -25,9 +54,22 @@ public class CratePickUp : MonoBehaviour
 
     [SerializeField] TMP_Text interactionUIText;
 
+    [SerializeField] Transform leftPickUpOffset;
+
+    [SerializeField] Transform rightPickUpOffset;
+
+    [SerializeField] Transform forwardPickUpOffset;
+
 
     public UnityEvent onGrabbed = new UnityEvent();
     public UnityEvent onDropped = new UnityEvent();
+
+    private DistanceCompare distanceCompare;
+
+    public int heldObjectsCount
+    {
+        get { return heldObjects.Count; }
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,10 +78,18 @@ public class CratePickUp : MonoBehaviour
 
     }
 
+    void Awake()
+    {
+        forwardPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+        leftPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+        rightPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+
+        distanceCompare = new DistanceCompare(gameObject.transform);
+    }
+
     // Update is called once per frame
     void Update()
     {
-
         liftFull = heldObjects.Count == maxObjects;
 
         if (pickupList.Count == 0)
@@ -52,29 +102,39 @@ public class CratePickUp : MonoBehaviour
         {
             forkLiftSelected = true;
         }
+    }
 
-        for (int i = 0; i < pickupList.Count; i++)
+    private void LateUpdate()
+    {
+        foreach (GameObject obj in heldObjects)
         {
-            for (int j = 0; j < heldObjects.Count; j++)
+            if (obj == null)
             {
-                if(heldObjects[j] == pickupList[i])
-                {
-                    pickupList.RemoveAt(i);
-                }
+                heldObjects.Remove(obj);
             }
         }
+
+        foreach (GameObject obj in pickupList)
+        {
+            if (obj == null)
+            {
+                pickupList.Remove(obj);
+            }
+        }
+
+        updatePositions();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         //if the other object is a box and the current player isn't holding a forklift
-        if (other.tag == "Float" && !holdingForklift)
+        if (other.tag == "Float" && !holdingForklift && other.GetComponent<ICollectable>().CanCollect)
         {
             interactionUIText.gameObject.SetActive(true);
             if (heldObjects.Count > 0 && !heldObjects.Contains(other.gameObject))
-                interactionUIText.text = "Press <sprite name=\"Xbox_Y\"> to pick up box\nPress <sprite name=\"Xbox_X\"> to drop box";
+                interactionUIText.text = "<sprite name=\"Xbox_Y\"> to pick up\n<sprite name=\"Xbox_X\"> to drop";
             else if(!heldObjects.Contains(other.gameObject))
-                interactionUIText.text = "Press <sprite name=\"Xbox_Y\"> to pick up box";
+                interactionUIText.text = "<sprite name=\"Xbox_Y\"> to pick up";
 
             pickupList.Add(other.gameObject);
         }
@@ -83,11 +143,13 @@ public class CratePickUp : MonoBehaviour
         if(other.tag == "Player" && heldObjects.Count == 0)
         {
             interactionUIText.gameObject.SetActive(true);
-            interactionUIText.text = "Press <sprite name=\"Xbox_X\"> to pick up player";
+            interactionUIText.text = "<sprite name=\"Xbox_Y\"> to pick up";
 
             pickupList.Add(other.gameObject);
-            CalculateAngleOfPickup(other.gameObject);
         }
+
+        //sort the objects in the pickupList by their distance to the lift (close to far)
+        pickupList.Sort(distanceCompare);
     }
 
     private void OnTriggerExit(Collider other)
@@ -100,17 +162,25 @@ public class CratePickUp : MonoBehaviour
         }
 
         if (heldObjects.Count > 0)
-            interactionUIText.text = "Press <sprite name=\"Xbox_X\"> to drop box";
+            interactionUIText.text = "<sprite name=\"Xbox_X\"> to drop";
         if (holdingForklift)
-            interactionUIText.text = "Press <sprite name=\"Xbox_X\"> to drop player";
+            interactionUIText.text = "<sprite name=\"Xbox_X\"> to drop";
     }
 
     public void PickUpSelected()
-    { 
-        if(forkLiftSelected)
+    {
+        foreach (GameObject obj in pickupList)
+        {
+            if (obj == null)
+            {
+                pickupList.Remove(obj);
+            }
+        }
+
+        if (pickupList.Count == 0)
             return;
 
-        if(pickupList.Count == 0 && heldObjects.Count == 0)
+        if (forkLiftSelected || holdingForklift || !pickupList[0].GetComponent<ICollectable>().CanCollect)
             return;
 
         if (!liftFull && pickupList.Count > 0)
@@ -130,28 +200,92 @@ public class CratePickUp : MonoBehaviour
         }
 
         if (heldObjects.Count > 0)
-            interactionUIText.text = "Press <sprite name=\"Xbox_X\"> to drop box";
+            interactionUIText.text = "<sprite name=\"Xbox_X\"> to drop";
         if (holdingForklift)
-            interactionUIText.text = "Press <sprite name=\"Xbox_X\"> to drop player";
+            interactionUIText.text = "<sprite name=\"Xbox_X\"> to drop";
+    }
+
+    public void PickUpSelectedForklift()
+    {
+        if(!forkLiftSelected || heldObjects.Count > 0)
+            return;
+
+        var Angle = CalculateAngleOfPickup(pickupList[0]);
+
+        pickupList[0].GetComponent<Rigidbody>().useGravity = false;
+        heldObjects.Add(pickupList[0]);
+        pickupList.Remove(pickupList[0]);
+        SetForkliftPostitionInParent(Angle);
+
+        holdingForklift = true;
+
+        onGrabbed?.Invoke();
     }
 
     public void DropHeld()
     {
+        foreach (GameObject obj in heldObjects)
+        {
+            if (obj == null)
+            {
+                heldObjects.Remove(obj);
+            }
+        }
 
-        if (heldObjects.Count == 0) return;
+        var heldCount = heldObjects.Count - (heldObjects.Count == 0 ? 0 : 1);
 
-        if (heldObjects[0].TryGetComponent<PhysicsPickup>(out var pickup))
+        if (heldObjects.Count == 0)
+        {
+            Debug.LogWarning("No objects to drop");
+            //turn off lights when there are no crates
+            onDropped?.Invoke();
+            return; 
+        }
+
+        if (heldObjects[heldCount].TryGetComponent<PhysicsPickup>(out var pickup))
         {
             pickup.OnDropped.Invoke();
 
             onDropped?.Invoke();
         }
-        var heldCount = heldObjects.Count - 1;
+
+        if (heldObjects[0].tag == "Player")
+        {
+            Debug.LogWarning("Dropping player");
+            holdingForklift = false;
+            heldObjects[0].GetComponent<BoxCollider>().enabled = true;
+            heldObjects[0].GetComponent<DrivingController>().togglePlayerLifted();
+
+            onDropped?.Invoke();
+        }
+
+
+        heldObjects[heldCount].GetComponent<Rigidbody>().isKinematic = false;
+
+        forwardPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+        leftPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+        rightPickUpOffset.GetComponent<BoxCollider>().enabled = false;
+
         UnsetPositionInParent(heldObjects[heldCount].gameObject.transform, heldCount);
         heldObjects.Remove(heldObjects[heldCount]);
-        heldCount--;
-        
 
+        if(pickupList.Count > 0)
+        {
+            interactionUIText.text = "<sprite name=\"Xbox_Y\"> to pick up";
+        }
+        else if(pickupList.Count > 0 && heldObjects.Count > 0)
+        {
+            interactionUIText.text = "<sprite name=\"Xbox_Y\"> to pick up\n<sprite name=\"Xbox_X\"> to drop";
+        }
+        else if(heldObjects.Count > 0)
+        {
+            interactionUIText.text = "<sprite name=\"Xbox_X\"> to drop";
+        }
+        else
+        {
+            interactionUIText.text = "";
+        }
+        
         //Swap Feature (if we have something in our pickup radius and we are holding something, drop what we are holding and pick up the new object) To be added if we feel its needed
         //else if (pickupList.Count > 0)
         //{
@@ -172,88 +306,97 @@ public class CratePickUp : MonoBehaviour
         //        PickUpSelected();
         //    }
         //}
-
     }
 
-    public void PickUpSelectedForklift()
+    private void updatePositions()
     {
-       //if (forkLiftSelected == true && heldObjects.Count == 0 && holdingForklift == false)
-       //{
-       //    Debug.Log($"Forklift Interaction with {hit.collider.name}");
-       //
-       //    GameObject lifting_forklift = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-       //    lifting_forklift.GetComponent<Collider>().enabled = false;
-       //
-       //    if (hit.collider.tag == "LeftSide")
-       //    {
-       //        SetForkliftPositionInParent(lifting_forklift.transform, ForkliftLeftLocation.transform);
-       //        lifting_forklift.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-       //        held_object = lifting_forklift;
-       //        has_forklift = true;
-       //    }
-       //
-       //    if (hit.collider.tag == "RightSide")
-       //    {
-       //        SetForkliftPositionInParent(lifting_forklift.transform, ForkliftRightLocation.transform);
-       //        lifting_forklift.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
-       //        held_object = lifting_forklift;
-       //        has_forklift = true;
-       //    }
-       //
-       //    if (hit.collider.tag == "BackSide")
-       //    {
-       //        lifting_forklift.transform.rotation = Forkcast.transform.rotation;
-       //        SetForkliftPositionInParent(lifting_forklift.transform, ForkliftBackLocation.transform);
-       //        held_object = lifting_forklift;
-       //        has_forklift = true;
-       //    }
-       //
-       //    if (has_forklift)
-       //    {
-       //        held_object.GetComponent<DrivingController>().togglePlayerLifted();
-       //    }
-       //}
-       //else if (forklift_selected == false && held_object != null && has_forklift == true)
-       //{
-       //    //Debug.Log("Dropping Forklift");
-       //    ray_dist = 1.5f;
-       //    UnsetPositionInParent(held_object.transform);
-       //    held_object.GetComponent<DrivingController>().togglePlayerLifted();
-       //    has_forklift = false;
-       //}
+        if (heldObjects.Count == 0) return;
+        if (heldObjects[0].tag == "Player") return;
+
+        for(int i = 0; i < heldObjects.Count; i++)
+        {
+            SetPositionInParent(heldObjects[i].transform, i);
+        }
     }
 
     public void SetPositionInParent(Transform newPosition, int heldcount)
     {
-        
             pickupPositionOffset = new Vector3(0, heldObjects[0].transform.lossyScale.y * heldcount, 0);
 
             newPosition.parent = PickupLocation.transform;
             newPosition.transform.position = PickupLocation.transform.position + pickupPositionOffset;
             newPosition.transform.rotation = PickupLocation.transform.rotation;
             newPosition.GetComponent<Rigidbody>().isKinematic = true;
-
     }
 
     public void UnsetPositionInParent(Transform newPosition, int heldcount)
     {
+        if (heldObjects[0].gameObject.tag == "Player")
+        {
+            heldObjects[0].GetComponent<Rigidbody>().useGravity = true;
+            heldObjects[0].GetComponent<DrivingController>().togglePlayerLifted();
+        }
         newPosition.parent = null;
         newPosition.GetComponent<Rigidbody>().isKinematic = false;
 
         newPosition.GetComponent<Collider>().enabled = true;
     }
 
-    public void CalculateAngleOfPickup(GameObject gameObject)
+    public PickUpDirection CalculateAngleOfPickup(GameObject otherGameObject)
     {
-        Debug.Log("Calculating Angle");
+        float sign = Mathf.Sign(Vector3.Dot(transform.forward, otherGameObject.transform.right));
+        float angle = Mathf.Acos(Vector3.Dot(transform.forward, otherGameObject.transform.forward)) * 180f/Mathf.PI * sign;
 
-        Debug.Log(this.gameObject.transform.rotation);
+        if((-45 <= angle && angle <= 45))
+        {
+            return PickUpDirection.Forward;
+        }
 
-        Debug.Log(gameObject.transform.rotation);
+        if(45 < angle && angle <= 135)
+        {
+            return PickUpDirection.Left;
+        }
+
+        if(-135 <= angle && angle < -45)
+        {
+            return PickUpDirection.Right;
+        }
+    
+        return PickUpDirection.None;
+
     }
 
-    public void SetForkliftPostitionInParent(Transform newPosition)
+    public void SetForkliftPostitionInParent(PickUpDirection direction)
     {
+        GameObject otherPlayer = heldObjects[0].gameObject;
+        otherPlayer.GetComponent<DrivingController>().togglePlayerLifted();
+        otherPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        otherPlayer.GetComponent<BoxCollider>().enabled = false;
+
+        if(direction == PickUpDirection.Left)
+        {
+            otherPlayer.transform.parent =   leftPickUpOffset;
+            otherPlayer.transform.position = leftPickUpOffset.position;
+            otherPlayer.transform.rotation = leftPickUpOffset.rotation;
+
+            leftPickUpOffset.GetComponent<BoxCollider>().enabled = true;
+        }
+        else if(direction == PickUpDirection.Forward)
+        {
+            otherPlayer.transform.parent =   forwardPickUpOffset;
+            otherPlayer.transform.position = forwardPickUpOffset.position;
+            otherPlayer.transform.rotation = forwardPickUpOffset.rotation;
+
+            forwardPickUpOffset.GetComponent<BoxCollider>().enabled = true;
+        }
+        else if (direction == PickUpDirection.Right)
+        {
+            otherPlayer.transform.parent =   rightPickUpOffset;
+            otherPlayer.transform.position = rightPickUpOffset.position;
+            otherPlayer.transform.rotation = rightPickUpOffset.rotation;
+
+            rightPickUpOffset.GetComponent<BoxCollider>().enabled = true;
+        }
 
     }
 }

@@ -20,6 +20,15 @@ public class PauseMenuManager : MonoBehaviour
         {
 			TogglePause();
         }
+		
+		// Unpause only
+		if (pauseMenuPanel.activeInHierarchy)
+		{
+			if (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame)
+			{
+				Unpause();
+			}
+		}
     }
 	
 	public void TogglePause()

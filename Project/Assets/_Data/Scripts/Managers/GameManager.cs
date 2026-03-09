@@ -100,6 +100,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(button_sound.clip.length);
         if (next_scene != string.Empty)
         {
+			// Make sure to unpause
+			Time.timeScale = 1.0f;
+			
             SceneManager.LoadScene(next_scene);
         }
         yield return null;

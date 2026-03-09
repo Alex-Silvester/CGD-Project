@@ -88,8 +88,10 @@ public class CollectorScheduler : MonoBehaviour
     void SetSchedule()
     {
         if (scheduleObject == null) return;
+        if (scheduleObject.RandomiseRequiredTag) scheduleObject.RandomiseTags();
 
         Schedule = new Queue<ScheduleQuota>();
+
         foreach (var req in scheduleObject.CollectionSchedule)
         {
             Schedule.Enqueue(req);

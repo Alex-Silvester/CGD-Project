@@ -940,22 +940,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1019596146266454325, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 25d91941b76836c40a080938955f55ff, type: 2}
-    - target: {fileID: 3108735853053390368, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 25d91941b76836c40a080938955f55ff, type: 2}
-    - target: {fileID: 3958982347378883898, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 25d91941b76836c40a080938955f55ff, type: 2}
-    - target: {fileID: 4353045127490069796, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 25d91941b76836c40a080938955f55ff, type: 2}
+    - target: {fileID: 3851358071459298347, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.202
+      objectReference: {fileID: 0}
     - target: {fileID: 5133357885489946857, guid: 184445b140bf4d24b9a31f0165c87971, type: 3}
       propertyPath: m_Name
       value: Shelf_Spawn_2Shelf
