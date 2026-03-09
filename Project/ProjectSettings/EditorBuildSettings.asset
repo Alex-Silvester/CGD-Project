@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/_Data/Scenes/Testing/Playground.unity
     guid: 3c9ce1ac94d93184fa9c14e78bd36c25
   - enabled: 1
-    path: Assets/_Data/Scenes/Level 1/Level 1.unity
+    path: Assets/_Data/Scenes/Level 1/Level 1 temp.unity
     guid: bde6e39fc931dfb4ca0fc87b9dbfb0ec
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 4216765b7d64fda4f863227d6b5db608, type: 2}
