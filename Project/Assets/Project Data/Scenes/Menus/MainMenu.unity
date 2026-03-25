@@ -255,7 +255,6 @@ GameObject:
   - component: {fileID: 136757615}
   - component: {fileID: 136757614}
   - component: {fileID: 136757613}
-  - component: {fileID: 136757618}
   - component: {fileID: 136757617}
   - component: {fileID: 136757619}
   m_Layer: 5
@@ -356,13 +355,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 136757618}
-        m_TargetAssemblyTypeName: AudioEnabler, Assembly-CSharp
-        m_MethodName: Enable
-        m_Mode: 5
+      - m_Target: {fileID: 136757617}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 8300000, guid: 297b574e9a903574fa27578ac436d1a9, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Click
@@ -503,22 +502,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &136757618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136757611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960f28106e982524eb33a3af701411e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audio_source:
-  - {fileID: 136757617}
-  names:
-  - Click
 --- !u!95 &136757619
 Animator:
   serializedVersion: 7
@@ -620,7 +603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &317480364
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1033,7 +1016,6 @@ GameObject:
   - component: {fileID: 753251395}
   - component: {fileID: 753251394}
   - component: {fileID: 753251393}
-  - component: {fileID: 753251398}
   - component: {fileID: 753251397}
   - component: {fileID: 753251399}
   m_Layer: 5
@@ -1134,13 +1116,13 @@ MonoBehaviour:
           m_StringArgument: LobbyMenu
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 753251398}
-        m_TargetAssemblyTypeName: AudioEnabler, Assembly-CSharp
-        m_MethodName: Enable
-        m_Mode: 5
+      - m_Target: {fileID: 753251397}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 8300000, guid: 297b574e9a903574fa27578ac436d1a9, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Click
@@ -1281,22 +1263,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &753251398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753251391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960f28106e982524eb33a3af701411e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audio_source:
-  - {fileID: 753251397}
-  names:
-  - Click
 --- !u!95 &753251399
 Animator:
   serializedVersion: 7
@@ -2093,7 +2059,6 @@ GameObject:
   - component: {fileID: 1629353408}
   - component: {fileID: 1629353407}
   - component: {fileID: 1629353406}
-  - component: {fileID: 1629353405}
   - component: {fileID: 1629353404}
   - component: {fileID: 1629353410}
   m_Layer: 5
@@ -2220,22 +2185,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1629353405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629353402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960f28106e982524eb33a3af701411e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audio_source:
-  - {fileID: 1629353404}
-  names:
-  - Click
 --- !u!114 &1629353406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2307,13 +2256,13 @@ MonoBehaviour:
           m_StringArgument: OptionsMenu
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1629353405}
-        m_TargetAssemblyTypeName: AudioEnabler, Assembly-CSharp
-        m_MethodName: Enable
-        m_Mode: 5
+      - m_Target: {fileID: 1629353404}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 8300000, guid: 297b574e9a903574fa27578ac436d1a9, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Click

@@ -94,7 +94,7 @@ public class DrivingController : MonoBehaviour
     [Header("Audio Variables")]
     [SerializeField] AudioSource runningSound;
     [SerializeField] float runningMaxPitch;
-    [SerializeField] private float audioSpeedRatio;
+    [SerializeField] float audioSpeedRatio;
 
     [Header("Bouce variables")]
     [Header("Bounce variables")]
@@ -221,9 +221,9 @@ public class DrivingController : MonoBehaviour
             DriftBoost();
         }
         
-        //Audio changes pitch depending on the speed of the forklift (however, because the forklift goes to max speed really quickly, the pitch change is almost unnoticable - Callum.S)
+        //Audio changes pitch depending on the speed of the forklift.
         audioSpeedRatio = speed;
-        runningSound.pitch = Mathf.Lerp(0.3f, runningMaxPitch, audioSpeedRatio);
+        runningSound.pitch = Mathf.Lerp(speed / 2, runningMaxPitch, Time.deltaTime * audioSpeedRatio);
 
         if(holdingInteract)
         {
@@ -698,7 +698,7 @@ public class DrivingController : MonoBehaviour
 
     public void OnDisconnectFromPickup()
     {
-        lifterPickup.DropHeld();
+        lifterPickup?.DropHeld();
     }
 
     #endregion

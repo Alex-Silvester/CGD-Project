@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using static CrateExtensions;
 
 /// <summary>
@@ -27,6 +28,8 @@ public class CrateObject : MonoBehaviour, ICollectable
 
     [SerializeField, Range(0f, 100f)]
     float dropLaunchForce = 5f;
+    [SerializeField]
+    UnityEvent onDestroyed;
 
     float maxScore;
     string startingPromptText;
@@ -40,7 +43,7 @@ public class CrateObject : MonoBehaviour, ICollectable
     // As in the minimum score the crate can have
     float MaximumScoreReduction => maxScore * (1 - DamageBehaviour.maximumScoreLossPercentage) - DamageBehaviour.maximumScoreLossValue;
 
-	private static readonly float floatingTextPlayerDetectionRadius = 1f;
+    private static readonly float floatingTextPlayerDetectionRadius = 1f;
 
     /// <summary>
     /// Instantiate and initialise a new crate.
@@ -118,8 +121,14 @@ public class CrateObject : MonoBehaviour, ICollectable
         {
             // Object is destroyed if score reaches 0
             score = value;
-            if (score <= 0) Destroy(GameObject);
-            else            UpdateTextObjects();
+            if (score <= 0)
+            {
+                Destroy(GameObject, 1.3f);
+                //onDestroyed uses audio for when the crate's number reaches 0 - Callum.S
+                onDestroyed.Invoke();
+            }
+
+            else UpdateTextObjects();
         }
     }
 
@@ -142,7 +151,7 @@ public class CrateObject : MonoBehaviour, ICollectable
 
     // Colour this object based on its tag
     void RecolourCrate()
-    { 
+    {
         material.SetColor("_Color", crateTag.GetColourFromTag());
 
         //Temporary fix
@@ -158,8 +167,8 @@ public class CrateObject : MonoBehaviour, ICollectable
         body.isKinematic = true;
     }
 
-    void OnDropped()   
-    { 
+    void OnDropped()
+    {
         UpdatePromptTextToGrab();
         CanCollect = CanDamage = true;
         body.isKinematic = false;

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a2ecad367c83c4b86e835286af1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactThreshold: 0.8
+  impactThreshold: 0.4
   onImpactThresholdMet:
     m_PersistentCalls:
       m_Calls:

@@ -16,10 +16,10 @@ MonoBehaviour:
   - requiredTag: 2
     requiredScore: 200
     timeLimit: 100
-  - requiredTag: 0
+  - requiredTag: 1
     requiredScore: 200
     timeLimit: 100
-  - requiredTag: 1
+  - requiredTag: 0
     requiredScore: 200
     timeLimit: 100
   randomiseRequiredTag: 1

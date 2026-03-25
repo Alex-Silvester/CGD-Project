@@ -6,18 +6,18 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ForkliftImpact2_{-1802782829662931545}
-  m_AudioClip: {fileID: 8300000, guid: 1e352d7ff69723848990af108393e6cb, type: 3}
+  m_Name: ForkliftImpact1_{-1802782829662931545}
+  m_AudioClip: {fileID: 8300000, guid: 4091f6a8910f0954499a72d3241588ce, type: 3}
   m_Volume: 0
   m_Enabled: 1
---- !u!1233149941 &2882187889062148653
+--- !u!1233149941 &-1767862739534788243
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ForkliftImpact1_{2882187889062148653}
-  m_AudioClip: {fileID: 8300000, guid: 6e2b645e4722adf4cb96a761a704a4c3, type: 3}
+  m_Name: ForkliftImpact3_{-1767862739534788243}
+  m_AudioClip: {fileID: 8300000, guid: 0c620f4c53c630f40b382a91784d8f5e, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1233149941 &4498458277723544385
@@ -26,8 +26,8 @@ AudioContainerElement:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ForkliftImpact3_{4498458277723544385}
-  m_AudioClip: {fileID: 8300000, guid: 3f337b2ae6447ab4f8b6bf7c6e1e70cb, type: 3}
+  m_Name: ForkliftImpact2_{4498458277723544385}
+  m_AudioClip: {fileID: 8300000, guid: fcfad6394f19c5147986742a06bccc36, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -42,19 +42,19 @@ AudioRandomContainer:
   m_AutomaticTriggerTime: 0
   m_LoopCount: 1
   m_VolumeRandomizationRange: {x: 0, y: 0}
-  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: -50, y: 120}
   m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
   m_LoopCountRandomizationRange: {x: 0, y: 0}
   m_Elements:
-  - {fileID: 2882187889062148653}
   - {fileID: -1802782829662931545}
   - {fileID: 4498458277723544385}
+  - {fileID: -1767862739534788243}
   m_AvoidRepeatingLast: 0
   m_PlaybackMode: 1
   m_TriggerMode: 0
   m_AutomaticTriggerMode: 1
   m_LoopMode: 2
   m_VolumeRandomizationEnabled: 0
-  m_PitchRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 1
   m_AutomaticTriggerTimeRandomizationEnabled: 0
   m_LoopCountRandomizationEnabled: 0
