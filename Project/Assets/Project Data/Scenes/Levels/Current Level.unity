@@ -161,7 +161,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 464067973}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6388048
 BoxCollider:
@@ -4696,11 +4696,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1258759457}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &464067973 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 598514730294780466, guid: a66a47a91cf3e754898bb014ddcbcc43, type: 3}
-  m_PrefabInstance: {fileID: 486330378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &464104193
 GameObject:
   m_ObjectHideFlags: 0
@@ -6781,6 +6776,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!224 &680808030 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8438657608687227556, guid: 7069651756f266544aa5d0c923f3d3ed, type: 3}
+  m_PrefabInstance: {fileID: 820428734}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &684073237 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4381035799982315702, guid: f36b27c55471b224596ed72a7fddf481, type: 3}
@@ -6852,7 +6852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3278701883763776178, guid: 8dc9ed0b39b496941a65dfb493fa3664, type: 3}
       propertyPath: debugPlayerCount
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3278701883763776178, guid: 8dc9ed0b39b496941a65dfb493fa3664, type: 3}
       propertyPath: playerJoined.m_PersistentCalls.m_Calls.Array.size
@@ -11477,7 +11477,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   moveBackOnCollide: 0
   playersUnderneath: 0
-  runningSound: {fileID: 938373765}
+  runningSound: {fileID: 0}
   audioSpeedRatio: 0
   runningMaxPitch: 0
   startPosition: {x: 0.33102024, y: -4.92, z: -0.12568174}
@@ -14195,6 +14195,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5074375602691218295, guid: 410c88e1cb4dcc640b3f30ea679b8900, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1490445429}
+    - targetCorrespondingSourceObject: {fileID: 5074375602691218295, guid: 410c88e1cb4dcc640b3f30ea679b8900, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 680808030}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 611088961426573706, guid: 410c88e1cb4dcc640b3f30ea679b8900, type: 3}
       insertIndex: -1
@@ -22272,5 +22275,5 @@ SceneRoots:
   - {fileID: 353469225}
   - {fileID: 4664457764608653800}
   - {fileID: 276963909}
-  - {fileID: 820428734}
   - {fileID: 1109194534}
+  - {fileID: 6388047}

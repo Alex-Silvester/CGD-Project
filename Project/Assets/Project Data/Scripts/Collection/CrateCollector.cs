@@ -120,7 +120,13 @@ public class CrateCollector : MonoBehaviour
         if (!canCollect || collectable.CanCollect == false || forCollection.Contains(collectable)) return;
 
         // Apply penalty multiplier if the collectable doesn't match the quota
-        collectable.Score = (collectable.Tag != collectionRequirement.requiredTag) ? (int)(collectable.Score * scheduler.PenaltyScoreMultiplier) : collectable.Score;
+        // If the multiplier is negative it may potentially destroy the crate so it should exit early
+        if (collectable.Tag != collectionRequirement.requiredTag)
+        {
+            collectable.Score = (int)(collectable.Score * scheduler.PenaltyScoreMultiplier);
+            if (collectable.Score <= 0) return;
+        }
+
         collectable.CanDamage = collectable.CanCollect = false;
         forCollection.Add(collectable);
         gridArrangement.Add(collectable.GameObject.transform);

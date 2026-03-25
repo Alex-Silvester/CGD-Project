@@ -28,6 +28,7 @@ public class CrateObject : MonoBehaviour, ICollectable
 
     [SerializeField, Range(0f, 100f)]
     float dropLaunchForce = 5f;
+
     [SerializeField]
     UnityEvent onDestroyed;
 
