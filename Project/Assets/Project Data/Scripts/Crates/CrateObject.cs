@@ -163,6 +163,7 @@ public class CrateObject : MonoBehaviour, ICollectable
         UpdatePromptTextToGrab();
         CanCollect = CanDamage = true;
         body.isKinematic = false;
+        // -transform.right is apparently the forward direction of the crate relative to the forklift's forward direction
         body.AddForce(-transform.right * dropLaunchForce, ForceMode.Impulse);
     }
 
