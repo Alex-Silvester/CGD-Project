@@ -25,6 +25,8 @@ public class CrateObject : MonoBehaviour, ICollectable
     [SerializeField] 
     GameObject tempNewCrateMeshEdges, tempNewCrateMeshSupports;
 
+    [SerializeField, Range(0f, 100f)]
+    float dropLaunchForce = 5f;
 
     float maxScore;
     string startingPromptText;
@@ -32,6 +34,7 @@ public class CrateObject : MonoBehaviour, ICollectable
     PhysicsPickup pickup;
     TextMeshPro[] textObjects;
     Material material;
+    Rigidbody body;
 
 
     // As in the minimum score the crate can have
@@ -59,6 +62,7 @@ public class CrateObject : MonoBehaviour, ICollectable
     private void Awake()
     {
         CanCollect = CanDamage = true;
+        body = GetComponent<Rigidbody>();
         material = GetComponent<Renderer>().material;
         textObjects = GetComponentsInChildren<TextMeshPro>();
         promptSource = GetComponentInChildren<ContextualPromptSource>();
@@ -150,13 +154,16 @@ public class CrateObject : MonoBehaviour, ICollectable
     void OnGrabbed()
     {
         UpdatePromptTextToDrop();
-        CanCollect = false;
+        CanCollect = CanDamage = false;
+        body.isKinematic = true;
     }
 
     void OnDropped()   
     { 
         UpdatePromptTextToGrab();
-        CanCollect = true;
+        CanCollect = CanDamage = true;
+        body.isKinematic = false;
+        body.AddForce(-transform.right * dropLaunchForce, ForceMode.Impulse);
     }
 
     // Reduces the crate's score and displays the text for that

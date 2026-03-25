@@ -185,11 +185,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 852655544728036825}
+  - component: {fileID: 8014043441069471834}
   - component: {fileID: 5113504707291311347}
   - component: {fileID: 8212449753071677058}
   - component: {fileID: 799914299884088629}
   - component: {fileID: 9029351545572074161}
-  - component: {fileID: 8014043441069471834}
   - component: {fileID: 6758174210526124029}
   - component: {fileID: 2716165824081693986}
   - component: {fileID: 3960147188473178597}
@@ -224,6 +224,24 @@ Transform:
   - {fileID: 4137928895874388071}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8014043441069471834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767048393502162153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a514b6ef3a51f046b533de3c7d9a503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 100
+  crateTag: 0
+  useColouredTags: 1
+  effectLibrary: {fileID: 11400000, guid: d87d210b5fa737845a0937f11f6c4db6, type: 2}
+  tempNewCrateMeshEdges: {fileID: 1522030544662680082}
+  tempNewCrateMeshSupports: {fileID: 7696058888468624302}
 --- !u!33 &5113504707291311347
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -325,24 +343,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8014043441069471834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3767048393502162153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a514b6ef3a51f046b533de3c7d9a503, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 100
-  crateTag: 0
-  useColouredTags: 1
-  tempNewCrateMeshEdges: {fileID: 1522030544662680082}
-  tempNewCrateMeshSupports: {fileID: 7696058888468624302}
-  effectLibrary: {fileID: 11400000, guid: d87d210b5fa737845a0937f11f6c4db6, type: 2}
 --- !u!114 &6758174210526124029
 MonoBehaviour:
   m_ObjectHideFlags: 0
