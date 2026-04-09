@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,6 +31,9 @@ public class CrateObject : MonoBehaviour, ICollectable
     [SerializeField, Range(0f, 100f)]
     float dropLaunchForce = 5f;
 
+    [SerializeField, Min(0f), Tooltip("'How many seconds after dropping does the crate have damage immunity?'")]
+    float damageImmunityTime = 0.2f;
+
     [SerializeField]
     UnityEvent onDestroyed;
 	public static UnityEvent onAnyDestroyed = new UnityEvent();
@@ -40,7 +45,8 @@ public class CrateObject : MonoBehaviour, ICollectable
     TextMeshPro[] textObjects;
     Material material;
     Rigidbody body;
-
+    WaitForSeconds waitDamageImmuneTimer;
+    bool deferringImmunity;
 
     // As in the minimum score the crate can have
     float MaximumScoreReduction => maxScore * (1 - DamageBehaviour.maximumScoreLossPercentage) - DamageBehaviour.maximumScoreLossValue;
@@ -71,6 +77,8 @@ public class CrateObject : MonoBehaviour, ICollectable
         material = GetComponent<Renderer>().material;
         textObjects = GetComponentsInChildren<TextMeshPro>();
         promptSource = GetComponentInChildren<ContextualPromptSource>();
+        waitDamageImmuneTimer = new WaitForSeconds(damageImmunityTime);
+        deferringImmunity = false;
 
         startingPromptText = "<sprite name=\"Xbox_Y\">";
 
@@ -176,7 +184,8 @@ public class CrateObject : MonoBehaviour, ICollectable
     void OnDropped()
     {
         UpdatePromptTextToGrab();
-        CanCollect = CanDamage = true;
+        CanCollect = true;
+        StartCoroutine(DeferSetCanDamage(() => CanCollect == true && score > 0));       // CanDamage == true after a delay and the condition passes
         body.isKinematic = false;
         // -transform.right is apparently the forward direction of the crate relative to the forklift's forward direction
         body.AddForce(-transform.right * dropLaunchForce, ForceMode.Impulse);
@@ -226,6 +235,20 @@ public class CrateObject : MonoBehaviour, ICollectable
 				}
 			}
         }
+    }
+
+    // Delay for assigning CanDamage, provided the condition passes -> basic 'if' check: () => (var == true), or any function that returns a bool
+    // Condition is important to prevent overriding can damage at the wrong time (e.g. when the crate is destroyed or gets added to collection)
+    // Can definitely just hard-code the condition but I expect this to change between contexts so it's being done like this (sorry)
+    public IEnumerator DeferSetCanDamage(Func<bool> condition)
+    {
+        // Exit if this is already running
+        if (deferringImmunity) yield break;
+
+        deferringImmunity = true;
+        yield return waitDamageImmuneTimer;
+        if (condition.Invoke()) CanDamage = true;
+        deferringImmunity = false;
     }
 
     // Returns how much score would be lost based on the relative velocity of a collision

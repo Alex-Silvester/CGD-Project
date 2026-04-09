@@ -239,6 +239,7 @@ MonoBehaviour:
   tempNewCrateMeshEdges: {fileID: 1522030544662680082}
   tempNewCrateMeshSupports: {fileID: 7696058888468624302}
   dropLaunchForce: 5
+  damageImmunityTime: 0.2
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
