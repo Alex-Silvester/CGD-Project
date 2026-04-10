@@ -2833,7 +2833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28231275fa6d8a8448f63cc9b9c73d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minPlayerCount: 1
+  minPlayerCount: 4
   maxPlayerCount: 4
   playerControllerImages:
   - {fileID: 1399826261}

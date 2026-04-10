@@ -481,8 +481,10 @@ public class DrivingController : MonoBehaviour
         }
     }
 
-    public void OnDrift()
+    public void OnDrift(InputValue value)
     {
+        var pressVal = value.Get<float>();
+
         // you can't drift while lifted
         if (selfIsLifted) return;
 
@@ -492,7 +494,7 @@ public class DrivingController : MonoBehaviour
         }
         else
         {
-            drifting = !drifting;
+            drifting = !drifting & (pressVal == 1);
         }
 
 
