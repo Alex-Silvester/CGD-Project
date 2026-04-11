@@ -17,3 +17,5 @@ MonoBehaviour:
     particleEffect: {fileID: 7950071618651394735, guid: 37c30c81b76e52f4aaafd4010adca29c, type: 3}
   - name: Explosion
     particleEffect: {fileID: 1007401986754706300, guid: a9fa268d768088448a4572f8f89ccd23, type: 3}
+  - name: Confetti
+    particleEffect: {fileID: 7950071618651394735, guid: be9c4d33d2eb0964ea8a12b4ab551295, type: 3}

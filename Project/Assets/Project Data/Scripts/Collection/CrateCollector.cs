@@ -31,18 +31,14 @@ public class CrateCollector : MonoBehaviour
     [SerializeField]
     ArrayArrangement gridArrangement;
 
+    [SerializeField, Tooltip("Confetti rotation is based on the forward vector.")]
+    Transform confettiTransform;
+
     [Space, Header("Event Bindings")]
 
-    [SerializeField]
-    UnityEvent<ScheduleQuota> onRequirementUpdate;
-
-    [SerializeField]
-    UnityEvent<float> onItemsForCollectionChanged;
-
-    [SerializeField]
-    UnityEvent onCollectionPeriodStarted, onCollectionPeriodEnded;
-
-    [SerializeField]
+    public UnityEvent<ScheduleQuota> onRequirementUpdate;
+    public UnityEvent<float> onItemsForCollectionChanged;
+    public UnityEvent onCollectionPeriodStarted, onCollectionPeriodEnded;
     public UnityEvent<bool> onEvaluatedRequirement;
 
     float currentCollectionScore = 0f;
@@ -78,6 +74,7 @@ public class CrateCollector : MonoBehaviour
         }
          
         forCollection = new List<ICollectable>();
+        if (confettiTransform == null) confettiTransform = transform;
     }
 
     private void Awake()
@@ -167,7 +164,11 @@ public class CrateCollector : MonoBehaviour
         // Collect everything that should be collected
         foreach(var c in forCollection) CollectCrate(c);
         bool isSuccess = (currentCollectionScore >= collectionRequirement.requiredScore);
-        currentCollectionScore *= isSuccess ? scheduler.BonusQuotaMultipler : 1f;
+        if (isSuccess)
+        {
+            currentCollectionScore *= scheduler.BonusQuotaMultipler;
+            DisplayConfettiParticles();
+        }
 
         // Add score + invoke events
         scoreObject.AddScore(currentCollectionScore);
@@ -175,10 +176,16 @@ public class CrateCollector : MonoBehaviour
         currentCollectionScore = 0f;
 
         forCollection.Clear();
-        
-
         starScore.ShowStars();
+    }
 
+    void DisplayConfettiParticles()
+    {
+        var confetti = effectLibrary.Get<ColoredParticleEffect>(ParticleEffectLibrary.Confetti);
+        confetti.color = confetti.emissionColor = collectionRequirement.requiredTag.GetColourFromTag();
+        confetti.AtPosition(confettiTransform.position)
+                .AtRotation(confettiTransform.rotation)
+                .Play();
     }
 
     // For invocation whenever the schedule changes the current collection requirement
