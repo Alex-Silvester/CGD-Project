@@ -64,6 +64,7 @@ public class CratePickUp : MonoBehaviour
 
 
     public UnityEvent onGrabbed = new UnityEvent();
+    public UnityEvent onGrabbedCrate = new UnityEvent();
     public UnityEvent onDropped = new UnityEvent();
 
     [SerializeField] private UnityEvent onDroppedAll = new UnityEvent();
@@ -197,8 +198,14 @@ public class CratePickUp : MonoBehaviour
 
             if (heldObjects[heldCount].TryGetComponent<PhysicsPickup>(out var pickup))
             {
+				// Crates and forklifts
                 pickup.OnGrabbed.Invoke();
                 onGrabbed?.Invoke();
+				
+				// Crates only
+				//if (heldObjects[heldCount].TryGetComponent<CrateObject>(out var crate))
+					onGrabbedCrate?.Invoke();
+				
                 pickupList.RemoveAt(0);
             }
         }

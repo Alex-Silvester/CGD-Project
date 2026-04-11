@@ -3381,11 +3381,11 @@ RectTransform:
   m_Children:
   - {fileID: 1277839342}
   - {fileID: 764157824}
-  - {fileID: 1314474341}
-  - {fileID: 611871469}
   - {fileID: 44121874}
   - {fileID: 323373112}
+  - {fileID: 611871469}
   - {fileID: 1547058582}
+  - {fileID: 1314474341}
   - {fileID: 215126163}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3445,6 +3445,10 @@ PrefabInstance:
     - target: {fileID: 2734892921043242974, guid: 06db6eadb62f4ac44af72e2fc8e216c5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2969391828197850687, guid: 06db6eadb62f4ac44af72e2fc8e216c5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.3000488
       objectReference: {fileID: 0}
     - target: {fileID: 4471951746787678730, guid: 06db6eadb62f4ac44af72e2fc8e216c5, type: 3}
       propertyPath: m_IsActive
@@ -3532,7 +3536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969639f9b07b89e49ba4ca73803fe441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotation: {x: 0, y: 10, z: 0}
+  rotation: {x: 0, y: 20, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
