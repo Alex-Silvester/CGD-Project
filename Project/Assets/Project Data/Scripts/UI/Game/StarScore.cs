@@ -13,8 +13,8 @@ public class StarScore : MonoBehaviour
 
     private float timeCheck;
 
-    public void ShowStars()                         //to change total required for max - change the maxScore in the ScoreObject object
-    {                                                           
+    public void ShowStars(bool _)                         //to change total required for max - change the maxScore in the ScoreObject object
+    {
         ScoreUpdateUI.SetActive(true);
         float percentage =  (ScoreObject.CurrentScore / ScoreObject.maxScore);
         ScoreSlider.value = percentage;

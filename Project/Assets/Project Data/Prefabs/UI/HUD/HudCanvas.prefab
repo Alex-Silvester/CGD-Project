@@ -1042,6 +1042,7 @@ RectTransform:
   - {fileID: 3018452706004406158}
   - {fileID: 2033745113824570223}
   - {fileID: 1085645284600504210}
+  - {fileID: 3517004350098692369}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2123,6 +2124,7 @@ GameObject:
   - component: {fileID: 7703205134908059352}
   - component: {fileID: 6177072039420115168}
   - component: {fileID: 384995461058832137}
+  - component: {fileID: 1146672971151640554}
   m_Layer: 5
   m_Name: StarScoreUpdate
   m_TagString: Untagged
@@ -2193,6 +2195,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1146672971151640554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338486488697448426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb90454f66e37e4a8185f80b0661f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreObject: {fileID: 11400000, guid: a81eb5c0ad339a34ebbcbe11b677fbaa, type: 2}
+  ScoreSlider: {fileID: 7969161772144702626}
+  ScoreUpdateUI: {fileID: 4338486488697448426}
 --- !u!1 &4370206213410816296
 GameObject:
   m_ObjectHideFlags: 0

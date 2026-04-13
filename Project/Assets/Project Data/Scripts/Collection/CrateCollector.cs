@@ -132,6 +132,7 @@ public class CrateCollector : MonoBehaviour
         collectable.CanDamage = collectable.CanCollect = false;
         forCollection.Add(collectable);
         gridArrangement.Add(collectable.GameObject.transform);
+        DisplayConfettiParticles(collectable.Tag.GetColourFromTag());
         onItemsForCollectionChanged.Invoke(GetScoreWaitingInCollection());
     }
 
@@ -162,14 +163,13 @@ public class CrateCollector : MonoBehaviour
     // Check if the current requirement was met
     void EvaluateRequirement()
     {
-        DisplayConfettiParticles();
         // Collect everything that should be collected
         foreach(var c in forCollection) CollectCrate(c);
         bool isSuccess = (currentCollectionScore >= collectionRequirement.requiredScore);
         if (isSuccess)
         {
             currentCollectionScore *= scheduler.BonusQuotaMultipler;
-            DisplayConfettiParticles();
+            DisplayConfettiParticles(collectionRequirement.requiredTag.GetColourFromTag());
         }
 
         // Add score + invoke events
@@ -178,13 +178,12 @@ public class CrateCollector : MonoBehaviour
         currentCollectionScore = 0f;
 
         forCollection.Clear();
-        starScore.ShowStars();
     }
 
-    void DisplayConfettiParticles()
+    void DisplayConfettiParticles(Color color)
     {
         var confetti = effectLibrary.Get<ColoredParticleEffect>(ParticleEffectLibrary.Confetti);
-        confetti.color = confetti.emissionColor = collectionRequirement.requiredTag.GetColourFromTag();
+        confetti.color = confetti.emissionColor = color;
         confetti.AtPosition(confettiTransform.position)
                 .AtRotation(confettiTransform.rotation)
                 .Play();
