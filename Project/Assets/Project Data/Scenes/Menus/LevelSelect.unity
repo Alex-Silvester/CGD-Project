@@ -449,6 +449,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 11400000, guid: 4ed000b2c17d6cc4da6d689d317c98a2, type: 2}
+    - target: {fileID: 2787746464854038578, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
+      propertyPath: loadingVariables
+      value: 
+      objectReference: {fileID: 769930024}
     - target: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1244,6 +1248,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 11400000, guid: 83f56e374dea729478a78b6ff6212a3d, type: 2}
+    - target: {fileID: 2787746464854038578, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
+      propertyPath: loadingVariables
+      value: 
+      objectReference: {fileID: 769930024}
     - target: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1370,6 +1378,51 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
   m_PrefabInstance: {fileID: 757920786}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &769930023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 769930025}
+  - component: {fileID: 769930024}
+  m_Layer: 0
+  m_Name: Loading Variables
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &769930024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769930023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06fae7c865aaf3f4a8cbf83fd67cb5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: 
+--- !u!4 &769930025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769930023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 203.59828, y: 0, z: 102.52042}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &795574828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1966,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 11400000, guid: 3d37f70bf97558d4291f9aad13d34b57, type: 2}
+    - target: {fileID: 2787746464854038578, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
+      propertyPath: loadingVariables
+      value: 
+      objectReference: {fileID: 769930024}
     - target: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2236,6 +2293,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 11400000, guid: 3a736581b3455ea439e075b1a5160da2, type: 2}
+    - target: {fileID: 2787746464854038578, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
+      propertyPath: loadingVariables
+      value: 
+      objectReference: {fileID: 769930024}
     - target: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2904,6 +2965,10 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 11400000, guid: e5dc90a11b3f7dc429296df8f4bacc14, type: 2}
+    - target: {fileID: 2787746464854038578, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
+      propertyPath: loadingVariables
+      value: 
+      objectReference: {fileID: 769930024}
     - target: {fileID: 3036766729820001945, guid: a875f80133f9d05499a85d39b073ab90, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3029,3 +3094,4 @@ SceneRoots:
   - {fileID: 1035312122}
   - {fileID: 497512981}
   - {fileID: 1801053744}
+  - {fileID: 769930025}

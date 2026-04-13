@@ -15,6 +15,8 @@ public class LevelPanel : MonoBehaviour
 	[Tooltip("0 = one star, 1 = 2 star, 2 = 3 star")]
 	[SerializeField] private Image[] starRatingImages;
 	[SerializeField] private TMP_Text bestScoreText;
+
+	[SerializeField] LoadingVariables loadingVariables;
 	
 	private void Start()
 	{
@@ -50,6 +52,7 @@ public class LevelPanel : MonoBehaviour
 			return;	
 		}
 		
-        SceneManager.LoadScene(level.GetSceneName());
+		loadingVariables.sceneName = level.GetSceneName();
+		loadingVariables.activateScene();
     }
 }

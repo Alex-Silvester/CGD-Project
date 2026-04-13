@@ -836,4 +836,13 @@ public class DrivingController : MonoBehaviour
 
         stunanim.SetBool("Stun", false);
     }
+
+    public bool TryBreakBreakableWall()
+    {
+        if (speed >= 5)
+        {
+            return true;
+        }
+        return false;
+    }
 }

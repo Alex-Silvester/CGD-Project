@@ -28,7 +28,7 @@ public class QuotaDisplayText : MonoBehaviour
     private void Awake()
     {
         trackedScore = 0f;
-        HideText();
+        //HideText();
     }
 
     private void OnEnable()
