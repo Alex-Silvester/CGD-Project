@@ -155,8 +155,14 @@ public class SaveManager : MonoBehaviour
 	/// </summary>
 	public void ClearSave()
 	{
+		// Delete Unity PlayerPrefs
+		PlayerPrefs.DeleteAll();
+		
 		// Delete save file
 		File.Delete(Application.persistentDataPath + "/" + saveFileName + saveFileExtension);
+		
+		// Delete data in memory
+		currentSaveData = new SaveData();
 	}
 	
 	#endregion Setters

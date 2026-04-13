@@ -69,6 +69,20 @@ public class VictoryPanelLayout : MonoBehaviour
             }
         }
 
+		// Save score if it's a highscore
+		if (SaveManager.instance != null && SaveManager.instance.currentSaveData != null)
+		{
+			// TODO don't hardcode warehouse score, get current level score
+			float currentHighscore = SaveManager.instance.currentSaveData.scores.warehouse;
+			
+			// Is the new score better?
+			if (scoreObject.CurrentScore > currentHighscore)
+			{
+				// Save the new highscore
+				SaveManager.instance.currentSaveData.scores.warehouse = scoreObject.CurrentScore;
+				SaveManager.instance.Save();
+			}
+		}
     }
 
     /// <summary>

@@ -6,6 +6,8 @@ using TMPro;
 public class LevelGroupPanel : MonoBehaviour
 {
 	[Header("Settings")]
+	[Tooltip("For getting star rating requirements")]
+	[SerializeField] private Level level; // Temporary quick fix as we only have one level anyway
 	[Tooltip("Level Group ScriptableObject in Project Folder this level group panel will represent")]
 	[SerializeField] private LevelGroup levelGroup;
 	[Tooltip("Reference in the scene to the individual level container for this level group")]
@@ -16,6 +18,8 @@ public class LevelGroupPanel : MonoBehaviour
 	[Header("Cache")]
 	[SerializeField] private TMP_Text levelGroupNameText;
 	[SerializeField] private Image levelGroupScreenshot;
+	[SerializeField] private TMP_Text totalScoreText;
+	[SerializeField] private GameObject[] stars;
 	
 	private void Start()
 	{
@@ -34,6 +38,31 @@ public class LevelGroupPanel : MonoBehaviour
 		
 		if (levelGroupScreenshot)
 			levelGroupScreenshot.sprite = levelGroup.GetScreenshot();
+		
+		// Get score for this level (otherwise use the default zero text in the scene)
+		if (SaveManager.instance != null && SaveManager.instance.currentSaveData != null)
+		{
+			float levelScore = SaveManager.instance.currentSaveData.scores.warehouse;
+			
+			totalScoreText.text = $"Total Score: {levelScore}";
+			
+			SetupStars(levelScore);
+		}
+	}
+	
+	private void SetupStars(float levelScore)
+	{
+		if (!level)
+			return;
+		
+		
+		// Calculate star rating
+		float starRating = level.GetStarRating(levelScore);
+		
+		for (int i = 0; i < starRating; i++)
+		{
+			stars[i].SetActive(true);
+		}
 	}
 	
 	// Use for button onclicked event

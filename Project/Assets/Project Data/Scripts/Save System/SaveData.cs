@@ -14,8 +14,9 @@ public class SaveData
 {
 	// Containers for variables
 	// Grouped to make it more manageable as we add more
-	public AudioSaveData audio;
+	public AudioSaveData audio = new AudioSaveData();
 	public AchievementSaveData achievements = new AchievementSaveData();
+	public ScoreData scores = new ScoreData();
 }
 
 #region Options menu
@@ -49,3 +50,15 @@ public class AchievementData
 }
 
 #endregion Achievements
+
+#region Scores
+
+[System.Serializable]
+public class ScoreData
+{
+	// TODO use array instead of hardcoding
+	// We only have one level so this isn't a problem (yet)
+	public float warehouse = 0.0f;
+}
+
+#endregion Scores

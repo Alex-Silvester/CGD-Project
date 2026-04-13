@@ -43,7 +43,8 @@ public class BackMenuManager : MonoBehaviour
 			}
 		}
 
-		FindAnyObjectByType<LoadingVariables>().allowVariableDestruction();
+		if (FindAnyObjectByType<LoadingVariables>())
+			FindAnyObjectByType<LoadingVariables>().allowVariableDestruction();
 		
 		// If we didn't find a valid active panel, it means we are at the root
 		// Therefore, go back to the previous scene

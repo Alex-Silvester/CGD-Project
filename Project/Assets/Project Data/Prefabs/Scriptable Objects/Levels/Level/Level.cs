@@ -53,6 +53,18 @@ public class Level : ScriptableObject
 		}
 	}
 	
+	public int GetStarRating(float score)
+	{
+		if (score >= scoreRequirements.threeStar)
+			return 3;
+		else if (score >= scoreRequirements.twoStar)
+			return 2;
+		else if (score >= scoreRequirements.oneStar)
+			return 1;
+		else
+			return 0;
+	}
+	
 	#endregion
 }
 
