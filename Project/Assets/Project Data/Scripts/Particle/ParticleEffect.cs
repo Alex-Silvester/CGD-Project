@@ -86,7 +86,7 @@ public abstract class ParticleEffect : MonoBehaviour
     // Destroys this object when the particle system stops playing
     IEnumerator YieldForDestroy()
     {
-        yield return new WaitWhile(() => ParticleSystem.isPlaying && IsSoundPlaying);
+        yield return new WaitWhile(() => ParticleSystem.isPlaying || IsSoundPlaying);
         Destroy(gameObject);
     }
 

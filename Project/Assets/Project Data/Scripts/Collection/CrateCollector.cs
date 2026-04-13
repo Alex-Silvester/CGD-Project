@@ -13,14 +13,8 @@ using static CrateExtensions;
 public class CrateCollector : MonoBehaviour
 {
     [SerializeField]
-    StarScore starScore;
-
-
-    [SerializeField]
     ScoreObject scoreObject;
 
-    [SerializeField, Tooltip("Confetti rotation is based on the forward vector.")]
-    Transform confettiTransform;
 
     [SerializeField]
     ParticleEffectLibrary effectLibrary;
@@ -34,6 +28,14 @@ public class CrateCollector : MonoBehaviour
     [SerializeField]
     ArrayArrangement gridArrangement;
 
+    [SerializeField]
+    AudioClip confettiSound;
+
+    [SerializeField]
+    Vector2 pitchRandomise = new(-0.05f, 0.05f);
+
+    [SerializeField, Tooltip("Confetti rotation is based on the forward vector.")]
+    Transform[] confettiTransform;
 
     [Space, Header("Event Bindings")]
 
@@ -75,7 +77,11 @@ public class CrateCollector : MonoBehaviour
         }
          
         forCollection = new List<ICollectable>();
-        if (confettiTransform == null) confettiTransform = transform;
+        if (confettiTransform.Length == 0)
+        {
+            confettiTransform = new Transform[1];
+            confettiTransform[0] = transform;
+        }
     }
 
     private void Awake()
@@ -182,11 +188,21 @@ public class CrateCollector : MonoBehaviour
 
     void DisplayConfettiParticles(Color color)
     {
-        var confetti = effectLibrary.Get<ColoredParticleEffect>(ParticleEffectLibrary.Confetti);
-        confetti.color = confetti.emissionColor = color;
-        confetti.AtPosition(confettiTransform.position)
-                .AtRotation(confettiTransform.rotation)
-                .Play();
+        bool playSound = true;
+        foreach (Transform point in confettiTransform)
+        {
+            var confetti = effectLibrary.Get<ColoredParticleEffect>(ParticleEffectLibrary.Confetti);
+            confetti.color = confetti.emissionColor = color;
+            if (playSound)
+            {
+                confetti.WithSound(confettiSound, pitchRandomise: pitchRandomise);
+                Debug.Log("adding sound");
+                playSound = false;
+            }
+            confetti.AtPosition(point.position)
+                    .AtRotation(point.rotation)
+                    .Play();
+        }
     }
 
     // For invocation whenever the schedule changes the current collection requirement

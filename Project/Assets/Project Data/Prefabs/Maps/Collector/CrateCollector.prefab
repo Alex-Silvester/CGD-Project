@@ -132,13 +132,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 786238106062161831}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.23803341, y: -0, z: -0, w: 0.97125703}
-  m_LocalPosition: {x: 0, y: 2.71, z: 3.232}
+  m_LocalRotation: {x: -0.35711285, y: -0, z: -0, w: 0.9340612}
+  m_LocalPosition: {x: 1.454, y: 2.731, z: 3.153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5927151463584524728}
-  m_LocalEulerAnglesHint: {x: -27.541, y: 0, z: 0}
+  m_Father: {fileID: 5038704533929994388}
+  m_LocalEulerAnglesHint: {x: -41.846, y: 0, z: 0}
 --- !u!1 &823490572340071292
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,8 +836,8 @@ Transform:
   - {fileID: 3778199760876918544}
   - {fileID: 2482744351154080376}
   - {fileID: 4236177725308819323}
-  - {fileID: 7340861459328148322}
   - {fileID: 2462038981357527538}
+  - {fileID: 5038704533929994388}
   - {fileID: 7309963326903483300}
   - {fileID: 5441902973444361853}
   - {fileID: 598514730294780466}
@@ -876,13 +876,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2533b8bc2d93d43bcbf5f651c6f1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starScore: {fileID: 0}
   scoreObject: {fileID: 11400000, guid: a81eb5c0ad339a34ebbcbe11b677fbaa, type: 2}
   effectLibrary: {fileID: 11400000, guid: d87d210b5fa737845a0937f11f6c4db6, type: 2}
   scheduler: {fileID: 3022961426910664996}
   audioEnabler: {fileID: 6571032529647430877}
   gridArrangement: {fileID: 4826853903939942524}
-  confettiTransform: {fileID: 7340861459328148322}
+  confettiSound: {fileID: 8300000, guid: 4c854c07db709344ba2671bfd745d0cf, type: 3}
+  confettiTransform:
+  - {fileID: 7340861459328148322}
+  - {fileID: 4112105612588638905}
+  - {fileID: 8902760155146915053}
+  - {fileID: 3900577911642668860}
   onRequirementUpdate:
     m_PersistentCalls:
       m_Calls:
@@ -1493,6 +1497,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7071378885921672363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4112105612588638905}
+  m_Layer: 6
+  m_Name: Confetti Emission (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4112105612588638905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7071378885921672363}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.35711285, y: -0, z: -0, w: 0.9340612}
+  m_LocalPosition: {x: -1.384, y: 2.731, z: 3.153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5038704533929994388}
+  m_LocalEulerAnglesHint: {x: -41.846, y: 0, z: 0}
 --- !u!1 &7485298902573611937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,6 +1724,103 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7788288509325381341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8902760155146915053}
+  m_Layer: 6
+  m_Name: Confetti Emission (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8902760155146915053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7788288509325381341}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.35711285, y: -0, z: -0, w: 0.9340612}
+  m_LocalPosition: {x: 1.454, y: -0.235, z: 3.552}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5038704533929994388}
+  m_LocalEulerAnglesHint: {x: -41.846, y: 0, z: 0}
+--- !u!1 &8657176673715290094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3900577911642668860}
+  m_Layer: 6
+  m_Name: Confetti Emission (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3900577911642668860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8657176673715290094}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.35711285, y: -0, z: -0, w: 0.9340612}
+  m_LocalPosition: {x: -1.384, y: -0.2349999, z: 3.552}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5038704533929994388}
+  m_LocalEulerAnglesHint: {x: -41.846, y: 0, z: 0}
+--- !u!1 &8895149957178047611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5038704533929994388}
+  m_Layer: 6
+  m_Name: Confetti Emission points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5038704533929994388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8895149957178047611}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7340861459328148322}
+  - {fileID: 4112105612588638905}
+  - {fileID: 8902760155146915053}
+  - {fileID: 3900577911642668860}
+  m_Father: {fileID: 5927151463584524728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5480665867097631126
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -22,7 +21,7 @@ public class ParticleEffectLibrary : ScriptableObject
     [field: SerializeField, Tooltip("The internal name of a particle effect and the particle effect script attached to the prefab, NOT the prefab itself.")]
     public List<Pair> ParticleEffects { get ; private set; }
 
-    [Tooltip("A default audio mixer group you could use if you want to add sounds to particle effects, via ParticleEffect.WithSound()")]
+    [Tooltip("This library's default audio mixer group which you could use when adding sounds to particle effects, via ParticleEffect.WithSound()")]
     public AudioMixerGroup libraryAudioMixerGroup;
 
     /// <summary>
