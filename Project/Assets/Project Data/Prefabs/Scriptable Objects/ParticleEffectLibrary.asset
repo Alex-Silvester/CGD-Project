@@ -19,3 +19,4 @@ MonoBehaviour:
     particleEffect: {fileID: 1007401986754706300, guid: a9fa268d768088448a4572f8f89ccd23, type: 3}
   - name: Confetti
     particleEffect: {fileID: 7950071618651394735, guid: be9c4d33d2eb0964ea8a12b4ab551295, type: 3}
+  libraryAudioMixerGroup: {fileID: -8998127060194001047, guid: fb7fa2da7aa779b4fa07dec20a1c0ed2, type: 2}
