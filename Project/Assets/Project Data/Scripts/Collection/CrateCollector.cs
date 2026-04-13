@@ -19,6 +19,9 @@ public class CrateCollector : MonoBehaviour
     [SerializeField]
     ScoreObject scoreObject;
 
+    [SerializeField, Tooltip("Confetti rotation is based on the forward vector.")]
+    Transform confettiTransform;
+
     [SerializeField]
     ParticleEffectLibrary effectLibrary;
 
@@ -31,8 +34,6 @@ public class CrateCollector : MonoBehaviour
     [SerializeField]
     ArrayArrangement gridArrangement;
 
-    [SerializeField, Tooltip("Confetti rotation is based on the forward vector.")]
-    Transform confettiTransform;
 
     [Space, Header("Event Bindings")]
 
@@ -161,6 +162,7 @@ public class CrateCollector : MonoBehaviour
     // Check if the current requirement was met
     void EvaluateRequirement()
     {
+        DisplayConfettiParticles();
         // Collect everything that should be collected
         foreach(var c in forCollection) CollectCrate(c);
         bool isSuccess = (currentCollectionScore >= collectionRequirement.requiredScore);

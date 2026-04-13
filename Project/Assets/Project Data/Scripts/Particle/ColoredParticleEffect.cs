@@ -17,8 +17,17 @@ public class ColoredParticleEffect : ParticleEffect
         main.startColor = color;
         var rend = GetComponent<ParticleSystemRenderer>();
         var material = rend.material;
-        material.SetColor("_BaseColor", color);
-        material.SetColor("_EmissionColor", emissionColor * emissionIntensity);
+        var trailMaterial = rend.trailMaterial;
+        if (material != null)
+        {
+            material.SetColor("_BaseColor", color);
+            material.SetColor("_EmissionColor", emissionColor * emissionIntensity);
+        }
+        if (trailMaterial != null)
+        {
+            trailMaterial.SetColor("_BaseColor", color);
+            trailMaterial.SetColor("_EmissionColor", emissionColor * emissionIntensity);
+        }
         base.Play();
     }
     

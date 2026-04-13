@@ -15,15 +15,15 @@ MonoBehaviour:
   collectionSchedule:
   - requiredTag: 1
     requiredScore: 200
-    timeLimit: 100
+    timeLimit: 5
   - requiredTag: 2
     requiredScore: 200
-    timeLimit: 100
+    timeLimit: 5
   - requiredTag: 0
     requiredScore: 200
-    timeLimit: 100
+    timeLimit: 5
   randomiseRequiredTag: 1
   quotaBonusMultiplier: 2
   penaltyScoreMultiplier: 0.1
-  totalTime: 300
+  totalTime: 15
   actingScheduler: {fileID: 0}
