@@ -1598,10 +1598,6 @@ PrefabInstance:
       propertyPath: duration
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7213067967333849847, guid: a66a47a91cf3e754898bb014ddcbcc43, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 0}

@@ -598,7 +598,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -8998127060194001047, guid: fb7fa2da7aa779b4fa07dec20a1c0ed2, type: 2}
   m_audioClip: {fileID: 8300000, guid: 6d6e2950a73914e4d84d29f572b437a4, type: 3}
   m_Resource: {fileID: 8300000, guid: 6d6e2950a73914e4d84d29f572b437a4, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -882,6 +882,7 @@ MonoBehaviour:
   audioEnabler: {fileID: 6571032529647430877}
   gridArrangement: {fileID: 4826853903939942524}
   confettiSound: {fileID: 8300000, guid: 4c854c07db709344ba2671bfd745d0cf, type: 3}
+  pitchRandomise: {x: -0.05, y: 0.05}
   confettiTransform:
   - {fileID: 7340861459328148322}
   - {fileID: 4112105612588638905}
