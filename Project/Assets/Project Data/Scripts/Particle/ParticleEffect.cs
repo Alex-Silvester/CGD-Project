@@ -23,7 +23,7 @@ using System.Collections.Generic;
 public abstract class ParticleEffect : MonoBehaviour
 {
     ParticleSystem ps;
-    List<AudioSource> sounds = new();
+    readonly List<AudioSource> sounds = new();
 
     // When first getting the particle system it will fetch the component
     public ParticleSystem ParticleSystem 
@@ -56,7 +56,6 @@ public abstract class ParticleEffect : MonoBehaviour
     public ParticleEffect WithSound(AudioClip clip, AudioMixerGroup mixer = default, float volume = 1f, float pitch = 1f, Vector2 pitchRandomise = default)
     {
         var source = gameObject.AddComponent<AudioSource>();
-        source.transform.parent = transform;
         sounds.Add(source);
         float newPitch = Mathf.Clamp(pitchRandomise == default ? pitch : Random.Range(pitch - pitchRandomise.x, pitch + pitchRandomise.y), -3f, 3f);
 

@@ -15,7 +15,6 @@ public class CrateCollector : MonoBehaviour
     [SerializeField]
     ScoreObject scoreObject;
 
-
     [SerializeField]
     ParticleEffectLibrary effectLibrary;
 
@@ -38,7 +37,6 @@ public class CrateCollector : MonoBehaviour
     Transform[] confettiTransform;
 
     [Space, Header("Event Bindings")]
-
     public UnityEvent<ScheduleQuota> onRequirementUpdate;
     public UnityEvent<float> onItemsForCollectionChanged;
     public UnityEvent onCollectionPeriodStarted, onCollectionPeriodEnded;
@@ -49,9 +47,6 @@ public class CrateCollector : MonoBehaviour
     bool wasStarted = false;
     List<ICollectable> forCollection;
     ScheduleQuota collectionRequirement;
-
-    // Get vector for launching a crate
-    Vector3 GetLaunchForce(float magnitude) => transform.forward * magnitude + new Vector3(0f, 5f, 0f);
 
     // Returns predicted score
     float GetScoreWaitingInCollection() => forCollection.Sum(item => item.Score);
@@ -196,7 +191,6 @@ public class CrateCollector : MonoBehaviour
             if (playSound)
             {
                 confetti.WithSound(confettiSound, pitchRandomise: pitchRandomise);
-                Debug.Log("adding sound");
                 playSound = false;
             }
             confetti.AtPosition(point.position)
