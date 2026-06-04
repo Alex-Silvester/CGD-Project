@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-4770255135582828999
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConeHit1_{-4770255135582828999}
+  m_AudioClip: {fileID: 8300000, guid: 06e213b2101ac2647908ca0701a3f451, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-728252299859903498
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConeHit4_{-728252299859903498}
+  m_AudioClip: {fileID: 8300000, guid: 6a41b05ef34d8304e949c3b661569b5b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4267797186989753624
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConeHit3_{4267797186989753624}
+  m_AudioClip: {fileID: 8300000, guid: f3dc6dce8c6e3654093e1bef8f3fc524, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5225544765888293376
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConeHit2_{5225544765888293376}
+  m_AudioClip: {fileID: 8300000, guid: 022cd30f2ed2ecd46a08360f66304f9f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConeHitARC
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -4770255135582828999}
+  - {fileID: 5225544765888293376}
+  - {fileID: 4267797186989753624}
+  - {fileID: -728252299859903498}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

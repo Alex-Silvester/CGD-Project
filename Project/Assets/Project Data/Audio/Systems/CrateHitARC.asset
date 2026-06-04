@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &105243335029580920
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crate Hit1_{105243335029580920}
+  m_AudioClip: {fileID: 8300000, guid: 115f191c4ebef5747a0677aea066f71d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &3452533294508148515
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crate Hit5_{3452533294508148515}
+  m_AudioClip: {fileID: 8300000, guid: b57e178795e018141921ed6d7c3f33df, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4155407745625522759
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crate Hit3_{4155407745625522759}
+  m_AudioClip: {fileID: 8300000, guid: eef5c8255f8570e4ca7688864bab594b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5308632830178072138
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crate Hit2_{5308632830178072138}
+  m_AudioClip: {fileID: 8300000, guid: 1129b200746deb4428b6e68f7703f72d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5815477617827161382
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crate Hit4_{5815477617827161382}
+  m_AudioClip: {fileID: 8300000, guid: 50ec31b525efd1d4ca6095305df28a7c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrateHitARC
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: -130, y: 130}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 105243335029580920}
+  - {fileID: 5308632830178072138}
+  - {fileID: 4155407745625522759}
+  - {fileID: 5815477617827161382}
+  - {fileID: 3452533294508148515}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

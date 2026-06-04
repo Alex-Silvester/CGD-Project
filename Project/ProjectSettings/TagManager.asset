@@ -17,12 +17,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Drivable
+  - 
   - Water
   - UI
   - Crates
   - Ignore Crates
-  - 
+  - Don't have elevator parent
   - 
   - 
   - 

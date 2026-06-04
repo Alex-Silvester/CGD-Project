@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef74d69c36979b4aaa3c5b8aa9ca77e, type: 3}
+  m_Name: CheatCode-GoToPlaygroundLevel
+  m_EditorClassIdentifier: 
+  requiredInputs:
+  - Down
+  - Up
+  - Down
+  - Up
+  - Right
+  - Left
+  - Right
+  - Left
+  - B
+  - A
+  action: {fileID: 11400000, guid: 66e5cf4c7d66c284f8808a796e76aa20, type: 2}
+  notificationText: Go to Secret Level

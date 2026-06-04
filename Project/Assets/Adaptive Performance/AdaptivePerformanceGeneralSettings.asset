@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3267160594727738095
+--- !u!114 &-8850879103278654997
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536372c49e1ca914d822849d36de938c, type: 3}
-  m_Name: Standalone Providers
+  m_Script: {fileID: 11500000, guid: 179fc3111e144bc4688dca4038b3265d, type: 3}
+  m_Name: Standalone Settings
   m_EditorClassIdentifier: 
-  m_AutomaticLoading: 0
-  m_AutomaticRunning: 0
-  m_Loaders: []
+  m_LoaderManagerInstance: {fileID: 1961721462822657879}
+  m_InitManagerOnStart: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -29,8 +28,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Keys: 01000000
   Values:
-  - {fileID: 6939830625106506947}
---- !u!114 &6939830625106506947
+  - {fileID: -8850879103278654997}
+--- !u!114 &1961721462822657879
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,8 +38,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 179fc3111e144bc4688dca4038b3265d, type: 3}
-  m_Name: Standalone Settings
+  m_Script: {fileID: 11500000, guid: 536372c49e1ca914d822849d36de938c, type: 3}
+  m_Name: Standalone Providers
   m_EditorClassIdentifier: 
-  m_LoaderManagerInstance: {fileID: -3267160594727738095}
-  m_InitManagerOnStart: 1
+  m_AutomaticLoading: 0
+  m_AutomaticRunning: 0
+  m_Loaders: []

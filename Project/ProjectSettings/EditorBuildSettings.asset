@@ -6,37 +6,49 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/SplashScreen.unity
+    path: Assets/Project Data/Scenes/Menus/SplashScreen.unity
     guid: c56755a039efd8d4d94b8ef924c05913
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/MainMenu.unity
+    path: Assets/Project Data/Scenes/Menus/MainMenu.unity
     guid: 4f0bc1afe8b099c4ba34706074d8a19a
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/OptionsMenu.unity
+    path: Assets/Project Data/Scenes/Menus/OptionsMenu.unity
     guid: 5ed1ec8284430874bb948ddf8f20b030
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/LobbyMenu.unity
-    guid: 183b39026cf4677468b52d69c5e9b4a8
+    path: Assets/Project Data/Scenes/Menus/LobbyMenu.unity
+    guid: c782c0dbd8368a1479c745618feb06e2
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/LevelSelect.unity
+    path: Assets/Project Data/Scenes/Menus/LevelSelect.unity
     guid: c9a4b7aaa0b82ef40ac242f0a57d1526
   - enabled: 1
-    path: Assets/_Data/Scenes/Menus/BetaTutorialScreen.unity
-    guid: c37a0d4ba50751f46a958b9984ba1f78
+    path: Assets/Project Data/Scenes/Levels/Tutorial Level/Tutorial.unity
+    guid: e41a8db0b8041cc4888ebdb450a44433
   - enabled: 1
+    path: Assets/Project Data/Scenes/Menus/BetaTutorialScreen.unity
+    guid: c37a0d4ba50751f46a958b9984ba1f78
+  - enabled: 0
     path: Assets/_Data/Scenes/Testing/Game.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/_Data/Scenes/AlphaLevel/AlphaLevel.unity
+  - enabled: 0
+    path: Assets/Project Data/Scenes/Levels/AlphaLevel/AlphaLevel.unity
     guid: d29aa338c83941243b6a02f6e876609f
   - enabled: 1
-    path: Assets/_Data/Scenes/Testing/Playground.unity
+    path: Assets/Project Data/Scenes/Testing/Playground.unity
     guid: 3c9ce1ac94d93184fa9c14e78bd36c25
   - enabled: 1
-    path: Assets/_Data/Scenes/Level 1/Level 1.unity
+    path: Assets/Project Data/Scenes/Levels/Level 1/Level 1.unity
     guid: bde6e39fc931dfb4ca0fc87b9dbfb0ec
+  - enabled: 1
+    path: Assets/Project Data/Scenes/Levels/Current Level.unity
+    guid: 86e4b39ce6ef19b4dbe83340df2ffd57
+  - enabled: 1
+    path: Assets/Project Data/Scenes/Menus/TrophiesMenu.unity
+    guid: f316d071a3d17934f8d00f06f31d56be
+  - enabled: 1
+    path: Assets/Project Data/Scenes/Menus/Loading Scene.unity
+    guid: 34994dea9582fb34c8d30dfae48f2d8c
   m_configObjects:
-    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 4216765b7d64fda4f863227d6b5db608, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 15975689c78128b4abffc05eb70ff166, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ae803bae08a07d748b72f9629f14791c, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
