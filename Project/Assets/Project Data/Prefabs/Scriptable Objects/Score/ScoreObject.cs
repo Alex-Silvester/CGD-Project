@@ -50,7 +50,7 @@ public class ScoreObject : ScriptableObject
 
     private void Set(float v)
     {
-        CurrentScore = v;
+        CurrentScore = Mathf.FloorToInt(v);
         onScoreChanged?.Invoke(CurrentScore);
     }
 

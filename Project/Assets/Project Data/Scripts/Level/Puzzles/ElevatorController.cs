@@ -18,6 +18,8 @@ public class ElevatorController : MonoBehaviour
     [SerializeField] AnimationCurve easingCurve;
     [SerializeField] bool moveBackOnCollide = false;
 
+    [SerializeField] Transform position;
+
     private bool activated = false;
 
     [SerializeField] int playersUnderneath = 0;
@@ -51,8 +53,7 @@ public class ElevatorController : MonoBehaviour
         audio_enabler = GetComponent<AudioEnabler>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(playersUnderneath > 0 && !activated)
         {
@@ -60,7 +61,7 @@ public class ElevatorController : MonoBehaviour
         }
 
         //if activated and not near the end position
-        if (activated && Vector3.Distance(transform.localPosition, endPosition) > threshold)
+        if (activated && Vector3.Distance(position.position, endPosition) > threshold)
         {
             float dist = Vector3.Distance(activationPostion, endPosition) * direction;
 
@@ -68,7 +69,7 @@ public class ElevatorController : MonoBehaviour
             transform.localPosition = activationPostion + new Vector3(0,easingCurve.Evaluate(currentMovementTime)*dist,0);
         }
         //if activated and near the end position
-        else if (activated && Vector3.Distance(transform.localPosition, endPosition) <= threshold)
+        else if (activated && Vector3.Distance(position.position, endPosition) <= threshold)
         {
             currentMovementTime = 0f;
             audio_enabler?.Disable("Activated");
@@ -79,11 +80,11 @@ public class ElevatorController : MonoBehaviour
                 audio_enabler?.Disable("Activated");
                 timeWaited = 0f;
 
-                activationPostion = transform.localPosition;
+                activationPostion = position.position;
             }
         }
         //if not activated and not near the end position
-        else if (Vector3.Distance(transform.localPosition, startPosition) > threshold)
+        else if (Vector3.Distance(position.position, startPosition) > threshold)
         {
             float dist = Vector3.Distance(activationPostion, startPosition) * direction;
 
@@ -110,7 +111,7 @@ public class ElevatorController : MonoBehaviour
     [ProButton]
     public void activate()
     {
-        activated = true;
+        activated = !activated;
 
         currentMovementTime = 0f;
 

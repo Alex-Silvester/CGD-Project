@@ -170,6 +170,7 @@ public class CrateCollector : MonoBehaviour
         if (isSuccess)
         {
             currentCollectionScore *= scheduler.BonusQuotaMultipler;
+            currentCollectionScore = Mathf.FloorToInt(currentCollectionScore);
             DisplayConfettiParticles(collectionRequirement.requiredTag.GetColourFromTag());
         }
 

@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66b478aa7e78ce4f81b12cb44a752d2, type: 3}
   m_Name: ScoreObject
   m_EditorClassIdentifier: 
-  maxScore: 1000
-  onScoreChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  maxScore: 900
   starRangePercentage: 0.2

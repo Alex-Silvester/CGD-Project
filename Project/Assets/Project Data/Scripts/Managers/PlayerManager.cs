@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour
             for (int i = 0; i < debugPlayerCount; i++)
             {
                 PlayerInput player = PlayerInput.Instantiate(player_prefab, i, splitScreenIndex: i);
+                player.GetComponent<ColourChanger>().setPlayerMaterial(i);
 
                 if (singleController)
                 {
@@ -78,12 +79,14 @@ public class PlayerManager : MonoBehaviour
         // Standard (build)
         else
         {
-            print(LobbyMenuManager.currentPlayers.Count);
+            print($"Player count: {LobbyMenuManager.currentPlayers.Count}");
 
             // LobbyMenuManager.currentPlayers = Gamepads in order they pressed join button on lobby screen
             for (int i = 0; i < LobbyMenuManager.getMaxPlayers(); i++)
             {
+                Debug.Log($"index: {i}");
                 PlayerInput player = PlayerInput.Instantiate(player_prefab, i, splitScreenIndex: i);
+                player.GetComponent<ColourChanger>().setPlayerMaterial(i);
 
                 if (i >= LobbyMenuManager.currentPlayers.Count)
                 {
@@ -115,8 +118,6 @@ public class PlayerManager : MonoBehaviour
             playerJoined.Invoke(player_count, player.gameObject.transform);
             player.gameObject.name = $"Player {player_count}";
 
-            player.GetComponent<ColourChanger>().setPlayerMaterial(player_count - 1);
-
             return;
         }
 
@@ -135,7 +136,5 @@ public class PlayerManager : MonoBehaviour
         playerJoined.Invoke(player_count, player.gameObject.transform);
 
         player.gameObject.name = $"Player {player_count}";
-
-        player.GetComponent<ColourChanger>().setPlayerMaterial(player_count - 1);
     }
 }
